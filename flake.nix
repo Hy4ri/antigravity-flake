@@ -177,7 +177,13 @@
       };
 
       antigravity-sdk = final: prev: {
-        antigravity-sdk = final.python3Packages.callPackage ./sdk.nix {};
+        python3 = prev.python3.override {
+          packageOverrides = python-final: python-prev: {
+            antigravity-sdk = python-final.callPackage ./sdk.nix {};
+          };
+        };
+        python3Packages = final.python3.pkgs;
+        antigravity-sdk = final.python3Packages.antigravity-sdk;
       };
 
       default = final: prev:
