@@ -53,7 +53,8 @@
 }:
 
 let
-  version = (builtins.fromJSON (builtins.readFile ./version.json)).ide.version;
+  ideData = (builtins.fromJSON (builtins.readFile ./version.json)).ide;
+  version = ideData.version;
   system = stdenv.hostPlatform.system;
   isDarwin = stdenv.hostPlatform.isDarwin;
 
@@ -61,22 +62,22 @@ let
     x86_64-linux = {
       arch = "linux-x64";
       filename = "Antigravity%20IDE.tar.gz";
-      hash = "1y8yqczfg0g8s5n432knb5m7792wlys40z7r2srs9ywa7am66wbl";
+      hash = ideData.hashes.x86_64-linux;
     };
     aarch64-linux = {
       arch = "linux-arm";
       filename = "Antigravity%20IDE.tar.gz";
-      hash = "0zk9l92ab6qv77g8k6d7j5ixcmjxji80whdjwzh84xvxxc5wrs9q";
+      hash = ideData.hashes.aarch64-linux;
     };
     x86_64-darwin = {
       arch = "darwin-x64";
       filename = "Antigravity%20IDE.dmg";
-      hash = "0qcqfrfqvbmwmlcv7hl8q4b65kc2dz260a0rm96rla645d1kwncd";
+      hash = ideData.hashes.x86_64-darwin;
     };
     aarch64-darwin = {
       arch = "darwin-arm";
       filename = "Antigravity%20IDE.dmg";
-      hash = "1aipgrqhg2sniix5jaycc4hb32x9dmg4mhkfs13sq4py433dz0kc";
+      hash = ideData.hashes.aarch64-darwin;
     };
   };
 

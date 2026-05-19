@@ -137,11 +137,34 @@ echo "  aarch64-darwin: $ide_aarch64_darwin"
 # 4. Fetch SDK Hashes
 echo ""
 echo "=== SDK Hashes ==="
-sdk_x86_64_linux=$(prefetch_sri_hash "https://files.pythonhosted.org/packages/df/70/812e0ef107fa1b71c3079eab7162928b0695ce59646e19ea32bfb2a21ab7/google_antigravity-${SDK_VER}-py3-none-manylinux_2_17_x86_64.whl")
+sdk_json=$(curl -s "https://pypi.org/pypi/google-antigravity/json")
+if [ -z "$sdk_json" ]; then
+  echo "Error: Failed to fetch SDK releases from PyPI."
+  exit 1
+fi
+
+sdk_x86_64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("manylinux_2_17_x86_64.whl")) | .url')
+sdk_aarch64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("manylinux_2_17_aarch64.whl")) | .url')
+sdk_aarch64_darwin_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("macosx_11_0_arm64.whl")) | .url')
+
+if [[ -z "$sdk_x86_64_linux_url" || "$sdk_x86_64_linux_url" == "null" ]]; then
+  echo "Error: Failed to find wheel URL for x86_64-linux for version $SDK_VER"
+  exit 1
+fi
+if [[ -z "$sdk_aarch64_linux_url" || "$sdk_aarch64_linux_url" == "null" ]]; then
+  echo "Error: Failed to find wheel URL for aarch64-linux for version $SDK_VER"
+  exit 1
+fi
+if [[ -z "$sdk_aarch64_darwin_url" || "$sdk_aarch64_darwin_url" == "null" ]]; then
+  echo "Error: Failed to find wheel URL for aarch64-darwin for version $SDK_VER"
+  exit 1
+fi
+
+sdk_x86_64_linux=$(prefetch_sri_hash "$sdk_x86_64_linux_url")
 echo "  x86_64-linux: $sdk_x86_64_linux"
-sdk_aarch64_linux=$(prefetch_sri_hash "https://files.pythonhosted.org/packages/21/6b/ba0147caab068ab7a3f76ed88b0f831aed859efdeded4f9e4dd3bf006ca8/google_antigravity-${SDK_VER}-py3-none-manylinux_2_17_aarch64.whl")
+sdk_aarch64_linux=$(prefetch_sri_hash "$sdk_aarch64_linux_url")
 echo "  aarch64-linux: $sdk_aarch64_linux"
-sdk_aarch64_darwin=$(prefetch_sri_hash "https://files.pythonhosted.org/packages/59/28/1008e2d5ee2a2209a7bc3821cde154417ac47f9e4c64f3e9931cbf8d088e/google_antigravity-${SDK_VER}-py3-none-macosx_11_0_arm64.whl")
+sdk_aarch64_darwin=$(prefetch_sri_hash "$sdk_aarch64_darwin_url")
 echo "  aarch64-darwin: $sdk_aarch64_darwin"
 
 # 5. Write to version.json
@@ -151,7 +174,10 @@ jq -n \
   --arg cliv "$CLI_VER" --arg cli_x "$cli_x86_64_linux" --arg cli_a "$cli_aarch64_linux" --arg cli_mx "$cli_x86_64_darwin" --arg cli_ma "$cli_aarch64_darwin" \
   --arg hubv "$HUB_VER" --arg hub_x "$hub_x86_64_linux" --arg hub_a "$hub_aarch64_linux" --arg hub_mx "$hub_x86_64_darwin" --arg hub_ma "$hub_aarch64_darwin" \
   --arg idev "$IDE_VER" --arg ide_x "$ide_x86_64_linux" --arg ide_a "$ide_aarch64_linux" --arg ide_mx "$ide_x86_64_darwin" --arg ide_ma "$ide_aarch64_darwin" \
-  --arg sdkv "$SDK_VER" --arg sdk_x "$sdk_x86_64_linux" --arg sdk_a "$sdk_aarch64_linux" --arg sdk_ma "$sdk_aarch64_darwin" \
+  --arg sdkv "$SDK_VER" \
+  --arg sdk_x_url "$sdk_x86_64_linux_url" --arg sdk_x "$sdk_x86_64_linux" \
+  --arg sdk_a_url "$sdk_aarch64_linux_url" --arg sdk_a "$sdk_aarch64_linux" \
+  --arg sdk_ma_url "$sdk_aarch64_darwin_url" --arg sdk_ma "$sdk_aarch64_darwin" \
   '{
     "cli": {
       "version": $cliv,
@@ -182,6 +208,11 @@ jq -n \
     },
     "sdk": {
       "version": $sdkv,
+      "urls": {
+        "x86_64-linux": $sdk_x_url,
+        "aarch64-linux": $sdk_a_url,
+        "aarch64-darwin": $sdk_ma_url
+      },
       "hashes": {
         "x86_64-linux": $sdk_x,
         "aarch64-linux": $sdk_a,

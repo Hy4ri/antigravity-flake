@@ -50,7 +50,8 @@
 }:
 
 let
-  version = (builtins.fromJSON (builtins.readFile ./version.json)).hub.version;
+  hubData = (builtins.fromJSON (builtins.readFile ./version.json)).hub;
+  version = hubData.version;
   system = stdenv.hostPlatform.system;
   isDarwin = stdenv.hostPlatform.isDarwin;
 
@@ -59,25 +60,25 @@ let
       arch = "linux-x64";
       filename = "Antigravity.tar.gz";
       extractDir = "Antigravity-x64";
-      hash = "15s29lhd2h0il07ixk2qmmqd6rpsxc62ngnwnyrqzgm5h2s9rg0l";
+      hash = hubData.hashes.x86_64-linux;
     };
     aarch64-linux = {
       arch = "linux-arm";
       filename = "Antigravity.tar.gz";
       extractDir = "Antigravity-arm64";
-      hash = "1q3ihlla4zqa9a48sggm181pys581n8nhzvfg7q9vni0zi4mzps2";
+      hash = hubData.hashes.aarch64-linux;
     };
     x86_64-darwin = {
       arch = "darwin-x64";
       filename = "Antigravity.dmg";
       extractDir = "";
-      hash = "19i0gdg877ry4p5a5g7snm0xrgqr9kv0z0ai7m2mcrl6h4dmc5kl";
+      hash = hubData.hashes.x86_64-darwin;
     };
     aarch64-darwin = {
       arch = "darwin-arm";
       filename = "Antigravity.dmg";
       extractDir = "";
-      hash = "1pagpzk97h9p4n4w1vkn3gpjvhpql456n9w7z6392hfww05kcv7r";
+      hash = hubData.hashes.aarch64-darwin;
     };
   };
 

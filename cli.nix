@@ -7,7 +7,8 @@
 }:
 
 let
-  version = (builtins.fromJSON (builtins.readFile ./version.json)).cli.version;
+  cliData = (builtins.fromJSON (builtins.readFile ./version.json)).cli;
+  version = cliData.version;
   system = stdenv.hostPlatform.system;
   isDarwin = stdenv.hostPlatform.isDarwin;
 
@@ -16,22 +17,22 @@ let
     x86_64-linux = {
       arch = "linux-x64";
       filename = "cli_linux_x64.tar.gz";
-      hash = "1dlyx6vpzw0zsl50v0hwrrsx88jf65bq0g2ddjhc9bsgax0662bh";
+      hash = cliData.hashes.x86_64-linux;
     };
     aarch64-linux = {
       arch = "linux-arm";
       filename = "cli_linux_arm64.tar.gz";
-      hash = "119a0x9acj5qv3jfpx6n9d1g6lbqrkmccvlaimv00sw3q6b7rp7l";
+      hash = cliData.hashes.aarch64-linux;
     };
     x86_64-darwin = {
       arch = "darwin-x64";
       filename = "cli_mac_x64.tar.gz";
-      hash = "0lzvnfgpszs2ly0v3y7dfk8xfi2w2p969mxdwcl6dgzhvhjiljkl";
+      hash = cliData.hashes.x86_64-darwin;
     };
     aarch64-darwin = {
       arch = "darwin-arm";
       filename = "cli_mac_arm64.tar.gz";
-      hash = "02ij9qvrsp8s1q07kxmdhak3k4g8crcdf7hn7fcfy8bswaszghk5";
+      hash = cliData.hashes.aarch64-darwin;
     };
   };
 

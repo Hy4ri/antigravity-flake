@@ -1,0 +1,117 @@
+name: Update Antigravity
+
+on:
+  schedule:
+    # Run every day at 17:00 UTC (5:00 PM) to catch typical afternoon releases
+    - cron: '0 17 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-antigravity:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Check for updates
+        id: check
+        run: |
+          set -euo pipefail
+
+          echo "=== Checking current versions ==="
+          CURRENT_CLI=$(jq -r '.cli.version' version.json)
+          CURRENT_HUB=$(jq -r '.hub.version' version.json)
+          CURRENT_SDK=$(jq -r '.sdk.version' version.json)
+
+          echo "Current CLI: $CURRENT_CLI"
+          echo "Current Hub: $CURRENT_HUB"
+          echo "Current SDK: $CURRENT_SDK"
+
+          echo "=== Fetching latest versions ==="
+          
+          # Fetch latest CLI version from Google Storage XML
+          LATEST_CLI=$(curl -s "https://storage.googleapis.com/antigravity-public/" | tr '>' '\n' | grep -oP "^antigravity-cli/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | sort -V | tail -n 1)
+          if [ -z "$LATEST_CLI" ]; then
+            echo "Error: Failed to fetch latest CLI version."
+            exit 1
+          fi
+          echo "Latest CLI found: $LATEST_CLI"
+
+          # Fetch latest Hub version from Google Storage XML
+          LATEST_HUB=$(curl -s "https://storage.googleapis.com/antigravity-public/" | tr '>' '\n' | grep -oP "^antigravity-hub/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | sort -V | tail -n 1)
+          if [ -z "$LATEST_HUB" ]; then
+            echo "Error: Failed to fetch latest Hub version."
+            exit 1
+          fi
+          echo "Latest Hub found: $LATEST_HUB"
+
+          # Fetch latest SDK version from PyPI API
+          LATEST_SDK=$(curl -s "https://pypi.org/pypi/google-antigravity/json" | jq -r '.info.version')
+          if [ -z "$LATEST_SDK" ] || [ "$LATEST_SDK" = "null" ]; then
+            echo "Error: Failed to fetch latest SDK version from PyPI."
+            exit 1
+          fi
+          echo "Latest SDK found: $LATEST_SDK"
+
+          UPDATE_NEEDED="false"
+          UPDATE_CLI=""
+          UPDATE_HUB=""
+          UPDATE_SDK=""
+
+          if [ "$LATEST_CLI" != "$CURRENT_CLI" ]; then
+            echo "New CLI version available: $LATEST_CLI"
+            UPDATE_NEEDED="true"
+            UPDATE_CLI="$LATEST_CLI"
+          fi
+
+          if [ "$LATEST_HUB" != "$CURRENT_HUB" ]; then
+            echo "New Hub version available: $LATEST_HUB"
+            UPDATE_NEEDED="true"
+            UPDATE_HUB="$LATEST_HUB"
+          fi
+
+          if [ "$LATEST_SDK" != "$CURRENT_SDK" ]; then
+            echo "New SDK version available: $LATEST_SDK"
+            UPDATE_NEEDED="true"
+            UPDATE_SDK="$LATEST_SDK"
+          fi
+
+          echo "update_needed=$UPDATE_NEEDED" >> $GITHUB_OUTPUT
+          echo "cli_version=${UPDATE_CLI:-$CURRENT_CLI}" >> $GITHUB_OUTPUT
+          echo "hub_version=${UPDATE_HUB:-$CURRENT_HUB}" >> $GITHUB_OUTPUT
+          echo "sdk_version=${UPDATE_SDK:-$CURRENT_SDK}" >> $GITHUB_OUTPUT
+
+      - name: Update Flake
+        if: steps.check.outputs.update_needed == 'true'
+        run: |
+          chmod +x ./update-version.sh
+          ./update-version.sh \
+            --cli "${{ steps.check.outputs.cli_version }}" \
+            --hub "${{ steps.check.outputs.hub_version }}" \
+            --sdk "${{ steps.check.outputs.sdk_version }}"
+
+      - name: Update flake.lock
+        if: steps.check.outputs.update_needed == 'true'
+        run: nix flake update
+
+      - name: Verify Flake
+        if: steps.check.outputs.update_needed == 'true'
+        run: |
+          nix flake check --no-build
+          nix build .#antigravity-cli --no-link
+
+      - name: Commit and Push
+        if: steps.check.outputs.update_needed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json flake.lock
+          
+          MSG="chore: auto-update Antigravity components"
+          git commit -m "$MSG" || echo "Nothing to commit"
+          git push

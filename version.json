@@ -1,11 +1,11 @@
 {
   "cli": {
-    "version": "1.0.0-5288553236791296",
+    "version": "1.0.0-6695125380890624",
     "hashes": {
-      "x86_64-linux": "1dlyx6vpzw0zsl50v0hwrrsx88jf65bq0g2ddjhc9bsgax0662bh",
-      "aarch64-linux": "119a0x9acj5qv3jfpx6n9d1g6lbqrkmccvlaimv00sw3q6b7rp7l",
-      "x86_64-darwin": "0lzvnfgpszs2ly0v3y7dfk8xfi2w2p969mxdwcl6dgzhvhjiljkl",
-      "aarch64-darwin": "02ij9qvrsp8s1q07kxmdhak3k4g8crcdf7hn7fcfy8bswaszghk5"
+      "x86_64-linux": "06h6m6xnnslql2xj5iy6mvp2j96pzl34bd72sfcx5n9pm6mylkc8",
+      "aarch64-linux": "020r26f5is21fjkq5pzh8vjnsas18i5sfzbjr2vcjfry4s3r5vka",
+      "x86_64-darwin": "08bbvnrd69zidamd0gnbi943lihlgwdv1ckgii98r2zmifa6dri7",
+      "aarch64-darwin": "1d86fb2dk8g3pm9m6r3bzsi0p03karisqi6azmjjna628x8gax65"
     }
   },
   "hub": {
@@ -28,6 +28,11 @@
   },
   "sdk": {
     "version": "0.1.0",
+    "urls": {
+      "x86_64-linux": "https://files.pythonhosted.org/packages/df/70/812e0ef107fa1b71c3079eab7162928b0695ce59646e19ea32bfb2a21ab7/google_antigravity-0.1.0-py3-none-manylinux_2_17_x86_64.whl",
+      "aarch64-linux": "https://files.pythonhosted.org/packages/21/6b/ba0147caab068ab7a3f76ed88b0f831aed859efdeded4f9e4dd3bf006ca8/google_antigravity-0.1.0-py3-none-manylinux_2_17_aarch64.whl",
+      "aarch64-darwin": "https://files.pythonhosted.org/packages/59/28/1008e2d5ee2a2209a7bc3821cde154417ac47f9e4c64f3e9931cbf8d088e/google_antigravity-0.1.0-py3-none-macosx_11_0_arm64.whl"
+    },
     "hashes": {
       "x86_64-linux": "sha256-KRsHLAwp34brbDyID8Vgb5E74GKQBmXGvUgkZtbUhz0=",
       "aarch64-linux": "sha256-elb8OkifDEfGpv1DnTUZm4N6Hk6tqmRyYojAJnFbJP0=",
