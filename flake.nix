@@ -121,7 +121,7 @@
       };
 
       antigravity-fhs = final: prev: {
-        antigravity-fhs = if final.stdenv.hostPlatform.isLinux then final.buildFHSEnv {
+        antigravity-fhs = if prev.stdenv.hostPlatform.isLinux then final.buildFHSEnv {
           name = "antigravity";
           targetPkgs = pkgs: with pkgs; [
             glibc
@@ -185,7 +185,7 @@
         // self.overlays.antigravity-hub final prev
         // self.overlays.antigravity final prev
         // self.overlays.antigravity-sdk final prev
-        // (if final.stdenv.hostPlatform.isLinux then self.overlays.antigravity-fhs final prev else {});
+        // (if prev.stdenv.hostPlatform.isLinux then self.overlays.antigravity-fhs final prev else {});
     };
   };
 }
