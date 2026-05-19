@@ -39,7 +39,7 @@ let
 in
 
 buildPythonPackage rec {
-  pname = "google-antigravity";
+  pname = "antigravity-sdk";
   inherit version;
   format = "wheel";
   dontCheckRuntimeDeps = true;

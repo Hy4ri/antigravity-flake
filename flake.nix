@@ -27,9 +27,9 @@
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
       isLinux = pkgs.stdenv.hostPlatform.isLinux;
-      antigravity = pkgs.callPackage ./ide.nix {};
+      antigravity-ide = pkgs.callPackage ./ide.nix {};
       antigravity-fhs = if isLinux then pkgs.buildFHSEnv {
-        name = "antigravity-fhs";
+        name = "antigravity-ide";
         targetPkgs = pkgs: with pkgs; [
           glibc
           stdenv.cc.cc
@@ -70,21 +70,21 @@
         ];
 
         extraInstallCommands = ''
-          ln -s "${antigravity}/share" "$out/"
+          ln -s "${antigravity-ide}/share" "$out/"
         '';
 
-        runScript = "${antigravity}/bin/antigravity-ide";
+        runScript = "${antigravity-ide}/bin/antigravity-ide";
 
         dieWithParent = false;
 
-        meta = antigravity.meta // {
+        meta = antigravity-ide.meta // {
           description = "Wrapped variant of antigravity-ide which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
         };
       } else null;
     in {
       antigravity-cli = pkgs.callPackage ./cli.nix {};
-      antigravity-hub = pkgs.callPackage ./hub.nix {};
-      inherit antigravity;
+      antigravity = pkgs.callPackage ./hub.nix {};
+      inherit antigravity-ide;
       antigravity-sdk = pkgs.python3Packages.callPackage ./sdk.nix {};
       default = self.packages.${system}.antigravity-cli;
     } // (if isLinux then { inherit antigravity-fhs; } else {}));
@@ -112,17 +112,17 @@
         antigravity-cli = final.callPackage ./cli.nix {};
       };
 
-      antigravity-hub = final: prev: {
-        antigravity-hub = final.callPackage ./hub.nix {};
+      antigravity = final: prev: {
+        antigravity = final.callPackage ./hub.nix {};
       };
 
-      antigravity = final: prev: {
-        antigravity = final.callPackage ./ide.nix {};
+      antigravity-ide = final: prev: {
+        antigravity-ide = final.callPackage ./ide.nix {};
       };
 
       antigravity-fhs = final: prev: {
         antigravity-fhs = if prev.stdenv.hostPlatform.isLinux then final.buildFHSEnv {
-          name = "antigravity-fhs";
+          name = "antigravity-ide";
           targetPkgs = pkgs: with pkgs; [
             glibc
             stdenv.cc.cc
@@ -163,14 +163,14 @@
           ];
 
           extraInstallCommands = ''
-            ln -s "${final.antigravity}/share" "$out/"
+            ln -s "${final.antigravity-ide}/share" "$out/"
           '';
 
-          runScript = "${final.antigravity}/bin/antigravity-ide";
+          runScript = "${final.antigravity-ide}/bin/antigravity-ide";
 
           dieWithParent = false;
 
-          meta = final.antigravity.meta // {
+          meta = final.antigravity-ide.meta // {
             description = "Wrapped variant of antigravity-ide which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
           };
         } else null;
@@ -188,8 +188,8 @@
 
       default = final: prev:
         self.overlays.antigravity-cli final prev
-        // self.overlays.antigravity-hub final prev
         // self.overlays.antigravity final prev
+        // self.overlays.antigravity-ide final prev
         // self.overlays.antigravity-sdk final prev
         // (if prev.stdenv.hostPlatform.isLinux then self.overlays.antigravity-fhs final prev else {});
     };

@@ -4,12 +4,13 @@ A clean, multi-platform Nix Flake for packaging the complete Google Antigravity 
 
 ## Exposed Packages
 
-This flake packages and exposes four primary targets supporting both Linux (`x86_64-linux`, `aarch64-linux`) and macOS (`x86_64-darwin`, `aarch64-darwin`):
+This flake packages and exposes five primary targets supporting both Linux (`x86_64-linux`, `aarch64-linux`) and macOS (`x86_64-darwin`, `aarch64-darwin`):
 
-1. **`antigravity-cli`** (default) - The Go-based Antigravity command-line utility.
-2. **`antigravity-hub`** - The Antigravity Desktop Hub (Electron application).
-3. **`antigravity-ide`** - The Antigravity Desktop IDE (Electron-based development environment).
-4. **`antigravity-sdk`** - The Python SDK containing precompiled, auto-patched localharness binaries for agent interaction.
+1. **`antigravity-cli`** (default) - The Go-based Antigravity command-line utility (provides command `agy`).
+2. **`antigravity`** - The Antigravity Desktop Hub (provides command `antigravity`).
+3. **`antigravity-ide`** - The Antigravity Desktop IDE (provides command `antigravity-ide`).
+4. **`antigravity-fhs`** - Wrapped IDE launched in a FHS compatible environment (provides conflicting command `antigravity-ide`, making it mutually exclusive/uninstallable together with the standard IDE package).
+5. **`antigravity-sdk`** - The Python SDK containing precompiled, auto-patched localharness binaries for agent interaction.
 
 ---
 
@@ -26,12 +27,14 @@ nix run github:Hy4ri/antigravity-flake#antigravity-cli
 
 ### Run the Desktop Hub
 ```bash
-nix run github:Hy4ri/antigravity-flake#antigravity-hub
+nix run github:Hy4ri/antigravity-flake#antigravity
 ```
 
 ### Run the Desktop IDE
 ```bash
 nix run github:Hy4ri/antigravity-flake#antigravity-ide
+# Or run with the FHS wrapper (Linux only):
+nix run github:Hy4ri/antigravity-flake#antigravity-fhs
 ```
 
 ---
@@ -53,7 +56,7 @@ Then add the packages to your system or home packages:
 ```nix
 environment.systemPackages = [
   inputs.antigravity.packages.${pkgs.system}.antigravity-cli
-  inputs.antigravity.packages.${pkgs.system}.antigravity-hub
+  inputs.antigravity.packages.${pkgs.system}.antigravity
   inputs.antigravity.packages.${pkgs.system}.antigravity-ide
 ];
 ```
@@ -79,19 +82,6 @@ nixpkgs.overlays = [
   inputs.antigravity.overlays.default
 ];
 ```
-
----
-
-## Automatic Hash & Version Maintenance
-
-The version hashes are declaratively managed inside `version.json`. When new updates are released by Google, run the included `update-version.sh` utility to automatically download the new binaries, recalculate cryptographic Nix hashes, and update the catalog in-place:
-
-```bash
-nix develop
-./update-version.sh --cli <new-version> --hub <new-version> --ide <new-version> --sdk <new-version>
-```
-
-Alternatively, pass individual flags to update only specific packages.
 
 ---
 

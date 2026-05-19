@@ -131,7 +131,7 @@ let
 in
 
 stdenv.mkDerivation {
-  pname = "antigravity-hub";
+  pname = "antigravity";
   inherit version;
 
   src = fetchurl {
@@ -164,12 +164,12 @@ stdenv.mkDerivation {
   '' else ''
     runHook preInstall
 
-    mkdir -p "$out/opt/antigravity-hub"
-    cp -r "${attrs.extractDir}"/* "$out/opt/antigravity-hub/"
+    mkdir -p "$out/opt/antigravity"
+    cp -r "${attrs.extractDir}"/* "$out/opt/antigravity/"
 
     # Make CLI symlink/wrapper
     mkdir -p $out/bin
-    makeWrapper "$out/opt/antigravity-hub/antigravity" "$out/bin/antigravity" \
+    makeWrapper "$out/opt/antigravity/antigravity" "$out/bin/antigravity" \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
       --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
@@ -177,7 +177,7 @@ stdenv.mkDerivation {
     mkdir -p $out/share/applications
     cat > "$out/share/applications/antigravity.desktop" << EOF
 [Desktop Entry]
-Name=Antigravity Hub
+Name=Antigravity
 Exec=$out/bin/antigravity
 Icon=antigravity
 Type=Application
