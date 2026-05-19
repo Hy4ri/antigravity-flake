@@ -168,17 +168,17 @@ stdenv.mkDerivation {
 
     # Make CLI symlink/wrapper
     mkdir -p $out/bin
-    makeWrapper "$out/opt/antigravity-hub/antigravity" "$out/bin/antigravity-hub" \
+    makeWrapper "$out/opt/antigravity-hub/antigravity" "$out/bin/antigravity" \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
       --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
     # Desktop Launcher
     mkdir -p $out/share/applications
-    cat > "$out/share/applications/antigravity-hub.desktop" << EOF
+    cat > "$out/share/applications/antigravity.desktop" << EOF
 [Desktop Entry]
 Name=Antigravity Hub
-Exec=$out/bin/antigravity-hub
-Icon=antigravity-hub
+Exec=$out/bin/antigravity
+Icon=antigravity
 Type=Application
 Categories=Development;
 Comment=Google Antigravity Desktop Hub
@@ -192,7 +192,7 @@ EOF
     homepage = "https://antigravity.google";
     license = lib.licenses.unfree;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    mainProgram = "antigravity-hub";
+    mainProgram = "antigravity";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
