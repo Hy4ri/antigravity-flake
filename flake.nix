@@ -29,7 +29,7 @@
       isLinux = pkgs.stdenv.hostPlatform.isLinux;
       antigravity = pkgs.callPackage ./ide.nix {};
       antigravity-fhs = if isLinux then pkgs.buildFHSEnv {
-        name = "antigravity-fhs";
+        name = "antigravity";
         targetPkgs = pkgs: with pkgs; [
           glibc
           stdenv.cc.cc
@@ -73,12 +73,12 @@
           ln -s "${antigravity}/share" "$out/"
         '';
 
-        runScript = "${antigravity}/bin/antigravity-ide";
+        runScript = "${antigravity}/bin/antigravity";
 
         dieWithParent = false;
 
         meta = antigravity.meta // {
-          description = "Wrapped variant of antigravity-ide which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
+          description = "Wrapped variant of antigravity which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
         };
       } else null;
     in {
@@ -122,7 +122,7 @@
 
       antigravity-fhs = final: prev: {
         antigravity-fhs = if prev.stdenv.hostPlatform.isLinux then final.buildFHSEnv {
-          name = "antigravity-fhs";
+          name = "antigravity";
           targetPkgs = pkgs: with pkgs; [
             glibc
             stdenv.cc.cc
@@ -166,12 +166,12 @@
             ln -s "${final.antigravity}/share" "$out/"
           '';
 
-          runScript = "${final.antigravity}/bin/antigravity-ide";
+          runScript = "${final.antigravity}/bin/antigravity";
 
           dieWithParent = false;
 
           meta = final.antigravity.meta // {
-            description = "Wrapped variant of antigravity-ide which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
+            description = "Wrapped variant of antigravity which launches in a FHS compatible environment, should allow for easy usage of extensions without nix-specific modifications";
           };
         } else null;
       };

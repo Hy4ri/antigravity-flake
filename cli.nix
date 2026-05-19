@@ -63,7 +63,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
-    install -Dm755 antigravity $out/bin/antigravity
+    install -Dm755 antigravity $out/bin/agy
     runHook postInstall
   '';
 
@@ -72,7 +72,7 @@ stdenv.mkDerivation {
     homepage = "https://antigravity.google";
     license = lib.licenses.unfree;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    mainProgram = "antigravity";
+    mainProgram = "agy";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
