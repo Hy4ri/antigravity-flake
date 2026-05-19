@@ -132,7 +132,7 @@ let
 in
 
 stdenv.mkDerivation {
-  pname = "antigravity-ide";
+  pname = "antigravity";
   inherit version;
 
   src = fetchurl {
@@ -165,22 +165,22 @@ stdenv.mkDerivation {
   '' else ''
     runHook preInstall
 
-    mkdir -p "$out/opt/antigravity-ide"
-    cp -r "Antigravity IDE"/* "$out/opt/antigravity-ide/"
+    mkdir -p "$out/opt/antigravity"
+    cp -r "Antigravity IDE"/* "$out/opt/antigravity/"
 
     # Make CLI symlink/wrapper
     mkdir -p $out/bin
-    makeWrapper "$out/opt/antigravity-ide/antigravity-ide" "$out/bin/antigravity-ide" \
+    makeWrapper "$out/opt/antigravity/antigravity-ide" "$out/bin/antigravity" \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
       --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
     # Desktop Launcher
     mkdir -p $out/share/applications
-    cat > "$out/share/applications/antigravity-ide.desktop" << EOF
+    cat > "$out/share/applications/antigravity.desktop" << EOF
 [Desktop Entry]
 Name=Antigravity IDE
-Exec=$out/bin/antigravity-ide
-Icon=antigravity-ide
+Exec=$out/bin/antigravity
+Icon=antigravity
 Type=Application
 Categories=Development;
 Comment=Google Antigravity Desktop IDE
@@ -194,7 +194,7 @@ EOF
     homepage = "https://antigravity.google";
     license = lib.licenses.unfree;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    mainProgram = "antigravity-ide";
+    mainProgram = "antigravity";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"

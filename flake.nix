@@ -29,7 +29,7 @@
     in {
       antigravity-cli = pkgs.callPackage ./cli.nix {};
       antigravity-hub = pkgs.callPackage ./hub.nix {};
-      antigravity-ide = pkgs.callPackage ./ide.nix {};
+      antigravity = pkgs.callPackage ./ide.nix {};
       antigravity-sdk = pkgs.python3Packages.callPackage ./sdk.nix {};
       default = self.packages.${system}.antigravity-cli;
     });
@@ -61,8 +61,8 @@
         antigravity-hub = final.callPackage ./hub.nix {};
       };
 
-      antigravity-ide = final: prev: {
-        antigravity-ide = final.callPackage ./ide.nix {};
+      antigravity = final: prev: {
+        antigravity = final.callPackage ./ide.nix {};
       };
 
       antigravity-sdk = final: prev: {
@@ -72,7 +72,7 @@
       default = final: prev:
         self.overlays.antigravity-cli final prev
         // self.overlays.antigravity-hub final prev
-        // self.overlays.antigravity-ide final prev
+        // self.overlays.antigravity final prev
         // self.overlays.antigravity-sdk final prev;
     };
   };
