@@ -132,7 +132,7 @@ let
 in
 
 stdenv.mkDerivation {
-  pname = "antigravity";
+  pname = "antigravity-ide";
   inherit version;
 
   src = fetchurl {
@@ -170,17 +170,17 @@ stdenv.mkDerivation {
 
     # Make CLI symlink/wrapper
     mkdir -p $out/bin
-    makeWrapper "$out/opt/antigravity/antigravity-ide" "$out/bin/antigravity" \
+    makeWrapper "$out/opt/antigravity/antigravity-ide" "$out/bin/antigravity-ide" \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
       --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
 
     # Desktop Launcher
     mkdir -p $out/share/applications
-    cat > "$out/share/applications/antigravity.desktop" << EOF
+    cat > "$out/share/applications/antigravity-ide.desktop" << EOF
 [Desktop Entry]
 Name=Antigravity IDE
-Exec=$out/bin/antigravity
-Icon=antigravity
+Exec=$out/bin/antigravity-ide
+Icon=antigravity-ide
 Type=Application
 Categories=Development;
 Comment=Google Antigravity Desktop IDE
@@ -194,7 +194,7 @@ EOF
     homepage = "https://antigravity.google";
     license = lib.licenses.unfree;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    mainProgram = "antigravity";
+    mainProgram = "antigravity-ide";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
