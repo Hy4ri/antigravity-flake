@@ -3,8 +3,14 @@
   stdenv,
   fetchurl,
   buildPythonPackage,
-  python3Packages,
   autoPatchelfHook,
+  absl-py,
+  google-genai,
+  mcp,
+  pydantic,
+  uvicorn,
+  websockets,
+  protobuf,
 }:
 
 let
@@ -35,6 +41,7 @@ buildPythonPackage rec {
   pname = "google-antigravity";
   inherit version;
   format = "wheel";
+  dontCheckRuntimeDeps = true;
 
   src = fetchurl {
     url = attrs.url;
@@ -51,7 +58,7 @@ buildPythonPackage rec {
     stdenv.cc.cc
   ];
 
-  propagatedBuildInputs = with python3Packages; [
+  propagatedBuildInputs = [
     absl-py
     google-genai
     mcp
