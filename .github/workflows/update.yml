@@ -103,7 +103,7 @@ jobs:
         if: steps.check.outputs.update_needed == 'true'
         run: |
           nix flake check --no-build
-          nix build .#antigravity-cli --no-link
+          nix build .#antigravity-cli .#antigravity .#antigravity-ide .#antigravity-sdk --no-link
 
       - name: Commit and Push
         if: steps.check.outputs.update_needed == 'true'
