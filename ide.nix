@@ -47,6 +47,9 @@
   libsecret,
   libnotify,
   xdg-utils,
+  libxkbfile,
+  webkitgtk_4_1,
+  libsoup_3,
 }:
 
 let
@@ -121,6 +124,9 @@ let
     libpulseaudio
     libsecret
     libnotify
+    libxkbfile
+    webkitgtk_4_1
+    libsoup_3
     stdenv.cc.cc
   ];
 in
