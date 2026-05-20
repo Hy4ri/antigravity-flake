@@ -64,7 +64,9 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
-    install -Dm755 antigravity $out/bin/agy
+    install -Dm755 antigravity $out/bin/.agy-wrapped
+    makeWrapper $out/bin/.agy-wrapped $out/bin/agy \
+      --set SSH_CONNECTION "127.0.0.1 12345 127.0.0.1 22"
     runHook postInstall
   '';
 

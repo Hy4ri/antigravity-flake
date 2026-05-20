@@ -171,7 +171,8 @@ stdenv.mkDerivation {
     mkdir -p $out/bin
     makeWrapper "$out/opt/antigravity/antigravity" "$out/bin/antigravity" \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath runtimeLibs} \
-      --prefix PATH : ${lib.makeBinPath [ xdg-utils ]}
+      --prefix PATH : ${lib.makeBinPath [ xdg-utils ]} \
+      --add-flags "--password-store=basic"
 
     # Desktop Launcher
     mkdir -p $out/share/applications

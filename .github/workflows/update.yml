@@ -26,10 +26,12 @@ jobs:
           echo "=== Checking current versions ==="
           CURRENT_CLI=$(jq -r '.cli.version' version.json)
           CURRENT_HUB=$(jq -r '.hub.version' version.json)
+          CURRENT_IDE=$(jq -r '.ide.version' version.json)
           CURRENT_SDK=$(jq -r '.sdk.version' version.json)
 
           echo "Current CLI: $CURRENT_CLI"
           echo "Current Hub: $CURRENT_HUB"
+          echo "Current IDE: $CURRENT_IDE"
           echo "Current SDK: $CURRENT_SDK"
 
           echo "=== Fetching latest versions ==="
@@ -50,6 +52,19 @@ jobs:
           fi
           echo "Latest Hub found: $LATEST_HUB"
 
+          # Fetch latest IDE version from Google Antigravity landing page bundle
+          LATEST_MAIN_JS=$(curl -s --compressed "https://antigravity.google/" | grep -oP 'main-[A-Z0-9]+\.js' | head -n 1)
+          if [ -z "$LATEST_MAIN_JS" ]; then
+            echo "Error: Failed to fetch main bundle name from landing page."
+            exit 1
+          fi
+          LATEST_IDE=$(curl -s --compressed "https://antigravity.google/$LATEST_MAIN_JS" | grep -oP 'https://edgedl\.me\.gvt1\.com/edgedl/release2/j0qc3/antigravity/stable/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/linux-x64/Antigravity%20IDE\.tar\.gz' | head -n 1 | cut -d/ -f9)
+          if [ -z "$LATEST_IDE" ]; then
+            echo "Error: Failed to fetch latest IDE version."
+            exit 1
+          fi
+          echo "Latest IDE found: $LATEST_IDE"
+
           # Fetch latest SDK version from PyPI API
           LATEST_SDK=$(curl -s "https://pypi.org/pypi/google-antigravity/json" | jq -r '.info.version')
           if [ -z "$LATEST_SDK" ] || [ "$LATEST_SDK" = "null" ]; then
@@ -61,6 +76,7 @@ jobs:
           UPDATE_NEEDED="false"
           UPDATE_CLI=""
           UPDATE_HUB=""
+          UPDATE_IDE=""
           UPDATE_SDK=""
 
           if [ "$LATEST_CLI" != "$CURRENT_CLI" ]; then
@@ -75,6 +91,12 @@ jobs:
             UPDATE_HUB="$LATEST_HUB"
           fi
 
+          if [ "$LATEST_IDE" != "$CURRENT_IDE" ]; then
+            echo "New IDE version available: $LATEST_IDE"
+            UPDATE_NEEDED="true"
+            UPDATE_IDE="$LATEST_IDE"
+          fi
+
           if [ "$LATEST_SDK" != "$CURRENT_SDK" ]; then
             echo "New SDK version available: $LATEST_SDK"
             UPDATE_NEEDED="true"
@@ -82,18 +104,21 @@ jobs:
           fi
 
           echo "update_needed=$UPDATE_NEEDED" >> $GITHUB_OUTPUT
-          echo "cli_version=${UPDATE_CLI:-$CURRENT_CLI}" >> $GITHUB_OUTPUT
-          echo "hub_version=${UPDATE_HUB:-$CURRENT_HUB}" >> $GITHUB_OUTPUT
-          echo "sdk_version=${UPDATE_SDK:-$CURRENT_SDK}" >> $GITHUB_OUTPUT
+          echo "update_cli=$UPDATE_CLI" >> $GITHUB_OUTPUT
+          echo "update_hub=$UPDATE_HUB" >> $GITHUB_OUTPUT
+          echo "update_ide=$UPDATE_IDE" >> $GITHUB_OUTPUT
+          echo "update_sdk=$UPDATE_SDK" >> $GITHUB_OUTPUT
 
       - name: Update Flake
         if: steps.check.outputs.update_needed == 'true'
         run: |
           chmod +x ./update-version.sh
-          ./update-version.sh \
-            --cli "${{ steps.check.outputs.cli_version }}" \
-            --hub "${{ steps.check.outputs.hub_version }}" \
-            --sdk "${{ steps.check.outputs.sdk_version }}"
+          ARGS=""
+          [[ -n "${{ steps.check.outputs.update_cli }}" ]] && ARGS="$ARGS --cli ${{ steps.check.outputs.update_cli }}"
+          [[ -n "${{ steps.check.outputs.update_hub }}" ]] && ARGS="$ARGS --hub ${{ steps.check.outputs.update_hub }}"
+          [[ -n "${{ steps.check.outputs.update_ide }}" ]] && ARGS="$ARGS --ide ${{ steps.check.outputs.update_ide }}"
+          [[ -n "${{ steps.check.outputs.update_sdk }}" ]] && ARGS="$ARGS --sdk ${{ steps.check.outputs.update_sdk }}"
+          ./update-version.sh $ARGS
 
       - name: Update flake.lock
         if: steps.check.outputs.update_needed == 'true'
