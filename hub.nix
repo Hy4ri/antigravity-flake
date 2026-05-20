@@ -179,11 +179,12 @@ stdenv.mkDerivation {
     cat > "$out/share/applications/antigravity.desktop" << EOF
 [Desktop Entry]
 Name=Antigravity
-Exec=$out/bin/antigravity
+Exec=$out/bin/antigravity %u
 Icon=antigravity
 Type=Application
 Categories=Development;
 Comment=Google Antigravity Desktop Hub
+MimeType=x-scheme-handler/antigravity;
 EOF
 
     runHook postInstall
