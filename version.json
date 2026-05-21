@@ -18,12 +18,12 @@
     }
   },
   "ide": {
-    "version": "2.0.1-4861014005645312",
+    "version": "2.0.2-5949548972081152",
     "hashes": {
-      "x86_64-linux": "1y8yqczfg0g8s5n432knb5m7792wlys40z7r2srs9ywa7am66wbl",
-      "aarch64-linux": "0zk9l92ab6qv77g8k6d7j5ixcmjxji80whdjwzh84xvxxc5wrs9q",
-      "x86_64-darwin": "0qcqfrfqvbmwmlcv7hl8q4b65kc2dz260a0rm96rla645d1kwncd",
-      "aarch64-darwin": "1aipgrqhg2sniix5jaycc4hb32x9dmg4mhkfs13sq4py433dz0kc"
+      "x86_64-linux": "0kihdbpv4i4ygingk33ijpiclrg2g52axzl59w97wk7w74l9hlj9",
+      "aarch64-linux": "12gi7fkxfmdaysm43i6c4ak8gxszw2ba899mf46gnj7jgzglsb77",
+      "x86_64-darwin": "0n081pmnmyr8wvwahp84s0k71mmwhv3433k3nxgbwzfsbabawh4b",
+      "aarch64-darwin": "04shczngjnx364713xz6nvkjik21zmbv8y5x2vjvk504x1hn08sb"
     }
   },
   "sdk": {
