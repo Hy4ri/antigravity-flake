@@ -79,25 +79,25 @@ jobs:
           UPDATE_IDE=""
           UPDATE_SDK=""
 
-          if [ "$LATEST_CLI" != "$CURRENT_CLI" ]; then
+          if [ "$LATEST_CLI" != "$CURRENT_CLI" ] && [ "$(printf '%s\n' "$CURRENT_CLI" "$LATEST_CLI" | sort -V | tail -n 1)" = "$LATEST_CLI" ]; then
             echo "New CLI version available: $LATEST_CLI"
             UPDATE_NEEDED="true"
             UPDATE_CLI="$LATEST_CLI"
           fi
 
-          if [ "$LATEST_HUB" != "$CURRENT_HUB" ]; then
+          if [ "$LATEST_HUB" != "$CURRENT_HUB" ] && [ "$(printf '%s\n' "$CURRENT_HUB" "$LATEST_HUB" | sort -V | tail -n 1)" = "$LATEST_HUB" ]; then
             echo "New Hub version available: $LATEST_HUB"
             UPDATE_NEEDED="true"
             UPDATE_HUB="$LATEST_HUB"
           fi
 
-          if [ "$LATEST_IDE" != "$CURRENT_IDE" ]; then
+          if [ "$LATEST_IDE" != "$CURRENT_IDE" ] && [ "$(printf '%s\n' "$CURRENT_IDE" "$LATEST_IDE" | sort -V | tail -n 1)" = "$LATEST_IDE" ]; then
             echo "New IDE version available: $LATEST_IDE"
             UPDATE_NEEDED="true"
             UPDATE_IDE="$LATEST_IDE"
           fi
 
-          if [ "$LATEST_SDK" != "$CURRENT_SDK" ]; then
+          if [ "$LATEST_SDK" != "$CURRENT_SDK" ] && [ "$(printf '%s\n' "$CURRENT_SDK" "$LATEST_SDK" | sort -V | tail -n 1)" = "$LATEST_SDK" ]; then
             echo "New SDK version available: $LATEST_SDK"
             UPDATE_NEEDED="true"
             UPDATE_SDK="$LATEST_SDK"
