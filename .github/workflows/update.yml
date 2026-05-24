@@ -45,7 +45,7 @@ jobs:
           echo "Latest CLI found: $LATEST_CLI"
 
           # Fetch latest Hub version from Google Storage XML
-          LATEST_HUB=$(curl -s "https://storage.googleapis.com/antigravity-public/" | tr '>' '\n' | grep -oP "^antigravity-hub/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | sort -V | tail -n 1)
+          LATEST_HUB=$(curl -s "https://storage.googleapis.com/antigravity-public/" | tr '>' '\n' | grep -oP "^antigravity-hub/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | grep -v "^100\." | sort -V | tail -n 1)
           if [ -z "$LATEST_HUB" ]; then
             echo "Error: Failed to fetch latest Hub version."
             exit 1
