@@ -136,7 +136,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add version.json flake.lock
-          
-          MSG="chore: auto-update Antigravity components"
+
+          # Collect updated components
+          UPDATES=""
+          [[ -n "${{ steps.check.outputs.update_cli }}" ]] && UPDATES="$UPDATES CLI→${{ steps.check.outputs.update_cli }}"
+          [[ -n "${{ steps.check.outputs.update_hub }}" ]] && UPDATES="$UPDATES Hub→${{ steps.check.outputs.update_hub }}"
+          [[ -n "${{ steps.check.outputs.update_ide }}" ]] && UPDATES="$UPDATES IDE→${{ steps.check.outputs.update_ide }}"
+          [[ -n "${{ steps.check.outputs.update_sdk }}" ]] && UPDATES="$UPDATES SDK→${{ steps.check.outputs.update_sdk }}"
+
+          # Remove leading space
+          UPDATES="${UPDATES# }"
+
+          if [[ "$UPDATES" == *" "* ]]; then
+            # Multiple components: "chore: update CLI→1.0.3, Hub→2.0.7"
+            MSG="chore: update ${UPDATES}"
+          else
+            # Single component: "chore(cli): update to 1.0.3"
+            SCOPE="${UPDATES%%→*}"
+            VERSION="${UPDATES##*→}"
+            MSG="chore(${SCOPE,,}): update to ${VERSION}"
+          fi
+
+          echo "Commit message: $MSG"
           git commit -m "$MSG" || echo "Nothing to commit"
           git push
