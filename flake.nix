@@ -47,7 +47,6 @@
           nss
           dbus
           at-spi2-atk
-          cups
           expat
           libxkbcommon
           libx11
@@ -140,7 +139,6 @@
             nss
             dbus
             at-spi2-atk
-            cups
             expat
             libxkbcommon
             libx11

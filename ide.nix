@@ -11,7 +11,6 @@
   at-spi2-core,
   atk,
   cairo,
-  cups,
   dbus,
   expat,
   fontconfig,
@@ -90,7 +89,6 @@ let
     at-spi2-core
     atk
     cairo
-    cups
     dbus
     expat
     fontconfig
