@@ -1,11 +1,11 @@
 {
   "cli": {
-    "version": "1.0.6-5359777384103936",
+    "version": "1.0.6-5941760250216448",
     "hashes": {
-      "x86_64-linux": "1gp7982023qs104zxb49zszhgvq7j7mh1arhsw2wf3psgqz0vf3s",
-      "aarch64-linux": "0m1rg6ix3lp3xcan6ik6x2fszrwarwpmm8577m39ri35g2dx72s3",
-      "x86_64-darwin": "1cqdlmwz20l7c5rg14yysa3sl0nf1irglpxx0xkm9ajcl0h9ikl4",
-      "aarch64-darwin": "0qsl0kbcpxx25ch4mq4mz498270rs70lhhx20xw8gqs9i6jl3lzi"
+      "x86_64-linux": "0hjf8qz0899ks7iakcp697v07xir7j62jwv4m0mpk2d2ppwxdh15",
+      "aarch64-linux": "1asfsdvhryycdp9x19dwrddz525py0mynf0c7rikpklx71zgp6lm",
+      "x86_64-darwin": "1kdwx4d4kk4l213r8samghh21b2gb4z53vc5n1m21j3dplfmhbdv",
+      "aarch64-darwin": "1v948m89pbv90mg9m84v65kr0a9w54hp5gg21zqhvblyx7w9cr16"
     }
   },
   "hub": {
@@ -27,16 +27,16 @@
     }
   },
   "sdk": {
-    "version": "0.1.1",
+    "version": "0.1.2",
     "urls": {
-      "x86_64-linux": "https://files.pythonhosted.org/packages/f3/21/9c3b3b59943b2f0c89c35282c8838b691a1e6b39f3801f40a23882ea45f6/google_antigravity-0.1.1-py3-none-manylinux_2_17_x86_64.whl",
-      "aarch64-linux": "https://files.pythonhosted.org/packages/26/69/2404c95381a3f9ea6e81243874b1067cb1ea3e0585630db2465992572aeb/google_antigravity-0.1.1-py3-none-manylinux_2_17_aarch64.whl",
-      "aarch64-darwin": "https://files.pythonhosted.org/packages/e5/5a/3f7b45a2f322df1e96c4c6ce038704376cfedbdcc9d08ce269e514627362/google_antigravity-0.1.1-py3-none-macosx_11_0_arm64.whl"
+      "x86_64-linux": "https://files.pythonhosted.org/packages/73/af/36b933c23f9114c58185ea18c7c12ab40e862f06a3074bdcc6ab6208fcc6/google_antigravity-0.1.2-py3-none-manylinux_2_17_x86_64.whl",
+      "aarch64-linux": "https://files.pythonhosted.org/packages/ca/b0/a2cd625471f365601f45315b21ec02c4f9499180c00a88544bb88be567ec/google_antigravity-0.1.2-py3-none-manylinux_2_17_aarch64.whl",
+      "aarch64-darwin": "https://files.pythonhosted.org/packages/03/d5/c6dc9b06d8248059c4ebba3489f620be1e53b03528f822c0fcf9b2dcc1bf/google_antigravity-0.1.2-py3-none-macosx_11_0_arm64.whl"
     },
     "hashes": {
-      "x86_64-linux": "sha256-ZMzXHZuaUIJ8aOTf20YFV1R9G6qr7OhD1OrlbBu7Ve4=",
-      "aarch64-linux": "sha256-GJdu0+6eOnNYEYXv2AKYmzPERH4CyRXaiV9TCNml1II=",
-      "aarch64-darwin": "sha256-LuD9HCiheXL9dCckKsm9I8PsF/zILBnZY5UH2u06wfg="
+      "x86_64-linux": "sha256-Xnp9iPP2QBuO+/RUdxhIdMYOOHmQ6d21Joaq0NoL5fI=",
+      "aarch64-linux": "sha256-6Iiyqgs51FJutK3QIMa9XBor/I5KPlwij8FpivLeQBE=",
+      "aarch64-darwin": "sha256-Ep83C0QyCu/ACZnM98l0GM1AJSxdPAfDVphDIkUA/8U="
     }
   }
 }
