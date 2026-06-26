@@ -36,28 +36,31 @@ jobs:
 
           echo "=== Fetching latest versions ==="
           
-          # Fetch latest CLI version from Google Storage XML
-          LATEST_CLI=$(curl -s "https://storage.googleapis.com/antigravity-public/?prefix=antigravity-cli/" | tr '>' '\n' | grep -oP "^antigravity-cli/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | sort -V | tail -n 1)
+          # Fetch latest CLI version from auto-updater service
+          LATEST_CLI_MANIFEST=$(curl -fsSL "https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/linux_amd64.json")
+          LATEST_CLI=$(echo "$LATEST_CLI_MANIFEST" | jq -r '.url' | grep -oP 'antigravity-cli/\K[^/]+')
           if [ -z "$LATEST_CLI" ]; then
             echo "Error: Failed to fetch latest CLI version."
             exit 1
           fi
           echo "Latest CLI found: $LATEST_CLI"
 
-          # Fetch latest Hub version from Google Storage XML
-          LATEST_HUB=$(curl -s "https://storage.googleapis.com/antigravity-public/?prefix=antigravity-hub/" | tr '>' '\n' | grep -oP "^antigravity-hub/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/" | cut -d/ -f2 | grep -v "^100\." | sort -V | tail -n 1)
+          # Fetch main JS bundle (used by Hub and IDE version discovery)
+          LATEST_MAIN_JS=$(curl -s --compressed "https://antigravity.google/" | grep -oP 'main-[A-Z0-9]+\.js' | head -n 1)
+          if [ -z "$LATEST_MAIN_JS" ]; then
+            echo "Error: Failed to fetch main bundle name from landing page."
+            exit 1
+          fi
+
+          # Fetch latest Hub version from JS bundle
+          LATEST_HUB=$(curl -s --compressed "https://antigravity.google/$LATEST_MAIN_JS" | grep -oP 'antigravity-hub/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
           if [ -z "$LATEST_HUB" ]; then
             echo "Error: Failed to fetch latest Hub version."
             exit 1
           fi
           echo "Latest Hub found: $LATEST_HUB"
 
-          # Fetch latest IDE version from Google Antigravity landing page bundle
-          LATEST_MAIN_JS=$(curl -s --compressed "https://antigravity.google/" | grep -oP 'main-[A-Z0-9]+\.js' | head -n 1)
-          if [ -z "$LATEST_MAIN_JS" ]; then
-            echo "Error: Failed to fetch main bundle name from landing page."
-            exit 1
-          fi
+          # Fetch latest IDE version from JS bundle
           LATEST_IDE=$(curl -s --compressed "https://antigravity.google/$LATEST_MAIN_JS" | grep -oP 'https://edgedl\.me\.gvt1\.com/edgedl/release2/j0qc3/antigravity/stable/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/linux-x64/Antigravity%20IDE\.tar\.gz' | head -n 1 | cut -d/ -f9)
           if [ -z "$LATEST_IDE" ]; then
             echo "Error: Failed to fetch latest IDE version."
