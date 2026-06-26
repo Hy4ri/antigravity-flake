@@ -1,20 +1,20 @@
 {
   "cli": {
-    "version": "1.0.11-5722351879454720",
+    "version": "1.0.12-6156052174077952",
     "hashes": {
-      "x86_64-linux": "1hbjliamag0yflzp5lx4r59nx676j1ah97lkvzpjwln46yfxzkkb",
-      "aarch64-linux": "0yarpf9d918zxwm065gcja6jkzv37agb0mkml42zsv3zx46dawyj",
-      "x86_64-darwin": "0ci8linfy2zjnrd9gv9xxks027ngac7i4q4fgndvfj0dbwa6dkxr",
-      "aarch64-darwin": "1xwplqqxyi0a7kb2bd56prbhrix85gnshmv1qa6fssg447gzh8v7"
+      "x86_64-linux": "022hqy1n62vbffqql1avbf4z4fxqv3lk28pl3jm5ibgbd3gpac3y",
+      "aarch64-linux": "1m7j3c16kzqncnd4dx07z6zcj4sxpmpchqxiq2k8h6xcfmc7wdm0",
+      "x86_64-darwin": "1a5p8qicld9wnvpwvzrkmzxq4qj0iy9klzjlfsqp522lc4r27ih3",
+      "aarch64-darwin": "0adqd4mk745jcrwy90lxijhqx713x02919m4xizgww3z26531xsk"
     }
   },
   "hub": {
-    "version": "2.1.4-6481382726303744",
+    "version": "2.2.1-5287492581195776",
     "hashes": {
-      "x86_64-linux": "16k5k83dyjsbab09s8jqy2zbwy5xymr6vxmx1kjjzlhh0hm07ysg",
-      "aarch64-linux": "1zwgisqy0h9adxzj0fgsl4gr4lkqd5nfdk7h9khznkg0k86dw8yn",
-      "x86_64-darwin": "1ibdj82240dfg5i8s9xz683cd1h29jbkf8mg5w9kxkh1jd9c0hz0",
-      "aarch64-darwin": "1vbg05afgz6xlg1irw47clf06f2r4br6gkw4igjn7xa4959x3sz9"
+      "x86_64-linux": "1289n9lik0imv7jj99hvw4mlrbviai4nf34a3pi1raljdw27gfm6",
+      "aarch64-linux": "0mim0d1k08cnwdyjiagdsjkv3aj7fmh3pgicldr8q29faspqcxpq",
+      "x86_64-darwin": "0n5qn3rf85d62ds7jy2h7dj6b9l216yh9irllsxwv5rkw8n0lm57",
+      "aarch64-darwin": "04lvx3i871zbda1wpvj3lv8080xr331phl7py8dqbzsqmbyma6fb"
     }
   },
   "ide": {
@@ -27,16 +27,16 @@
     }
   },
   "sdk": {
-    "version": "0.1.4",
+    "version": "0.1.5",
     "urls": {
-      "x86_64-linux": "https://files.pythonhosted.org/packages/5f/72/6efc89b3aa36f85f583afa9b8214f3b758ec6cd056be5798c80f58861826/google_antigravity-0.1.4-py3-none-manylinux_2_17_x86_64.whl",
-      "aarch64-linux": "https://files.pythonhosted.org/packages/f7/06/6d853664783e2b17ef2e95a6202add07a331e1dd55430341db257200c251/google_antigravity-0.1.4-py3-none-manylinux_2_17_aarch64.whl",
-      "aarch64-darwin": "https://files.pythonhosted.org/packages/89/e2/1c6f9d4ffb4d97088cac763fa0dd3604504283f4b8d3ea0c07ca33d9f1ee/google_antigravity-0.1.4-py3-none-macosx_11_0_arm64.whl"
+      "x86_64-linux": "https://files.pythonhosted.org/packages/6e/18/d89abb1dafe906451c2bd13f0c32917e1d35ba95d2436a06907045a69cfd/google_antigravity-0.1.5-py3-none-manylinux_2_17_x86_64.whl",
+      "aarch64-linux": "https://files.pythonhosted.org/packages/0e/e8/4a85ba4a7be1c35acb18c4f070e5049df6f185547b0c9d6794acbc06a452/google_antigravity-0.1.5-py3-none-manylinux_2_17_aarch64.whl",
+      "aarch64-darwin": "https://files.pythonhosted.org/packages/15/7c/8d6151f12e4544229754575c6f8a2b57b615aab312440f2db64580af42e0/google_antigravity-0.1.5-py3-none-macosx_11_0_arm64.whl"
     },
     "hashes": {
-      "x86_64-linux": "sha256-y8Ne3/8YpnlfRsCW+NryqHZTsXOe9MY7AaBLp5UiP5U=",
-      "aarch64-linux": "sha256-QnZgCiSAyyS/dPMzTwgt8gWQGSNnZuojta+fng4qSuA=",
-      "aarch64-darwin": "sha256-y4MCKFPRAhq/+xA97CSM3/kv4MbQEh8CKWFvVSRiTQE="
+      "x86_64-linux": "sha256-7B6+QES5LkH28WMs+smLsp8D7wvlJEbLWmdXYUcUg2M=",
+      "aarch64-linux": "sha256-p0iS+SUeTCzZli2GMWgKqCZtLiFlJ91oz4rI3hE3yZY=",
+      "aarch64-darwin": "sha256-ChLjCDb7ZkG8Y76qPmXTvL/DnAGh6wfHyn7boxdTdmA="
     }
   }
 }
