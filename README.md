@@ -1,16 +1,21 @@
 # Google Antigravity Nix Flake
 
+[![CLI Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.cli.version&label=CLI&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
+[![Hub Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.hub.version&label=Hub&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
+[![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
+[![SDK Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.sdk.version&label=SDK&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
+
 A clean, multi-platform Nix Flake for packaging the complete Google Antigravity AI engineering suite: the CLI, Desktop Hub, Desktop IDE, and Python SDK.
 
 ## Exposed Packages
 
 This flake packages and exposes five primary targets supporting both Linux (`x86_64-linux`, `aarch64-linux`) and macOS (`x86_64-darwin`, `aarch64-darwin`):
 
-1. **`antigravity-cli`** (default) - The Go-based Antigravity command-line utility (provides command `agy`).
-2. **`antigravity`** - The Antigravity Desktop Hub (provides command `antigravity`).
-3. **`antigravity-ide`** - The Antigravity Desktop IDE (provides command `antigravity-ide`).
-4. **`antigravity-fhs`** - Wrapped IDE launched in a FHS compatible environment (provides conflicting command `antigravity-ide`, making it mutually exclusive/uninstallable together with the standard IDE package).
-5. **`antigravity-sdk`** - The Python SDK containing precompiled, auto-patched localharness binaries for agent interaction.
+1. **`antigravity-cli`** (default) ![CLI Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.cli.version&label=CLI&prefix=v&color=blue) - The Go-based Antigravity command-line utility (provides command `agy`).
+2. **`antigravity`** ![Hub Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.hub.version&label=Hub&prefix=v&color=blue) - The Antigravity Desktop Hub (provides command `antigravity`).
+3. **`antigravity-ide`** ![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue) - The Antigravity Desktop IDE (provides command `antigravity-ide`).
+4. **`antigravity-fhs`** ![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue) - Wrapped IDE launched in a FHS compatible environment (provides conflicting command `antigravity-ide`, making it mutually exclusive/uninstallable together with the standard IDE package).
+5. **`antigravity-sdk`** ![SDK Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.sdk.version&label=SDK&prefix=v&color=blue) - The Python SDK containing precompiled, auto-patched localharness binaries for agent interaction.
 
 ---
 
