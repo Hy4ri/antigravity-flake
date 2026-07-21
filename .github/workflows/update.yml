@@ -45,23 +45,16 @@ jobs:
           fi
           echo "Latest CLI found: $LATEST_CLI"
 
-          # Fetch main JS bundle (used by Hub and IDE version discovery)
-          LATEST_MAIN_JS=$(curl -s --compressed "https://antigravity.google/" | grep -oP 'main-[A-Z0-9]+\.js' | head -n 1)
-          if [ -z "$LATEST_MAIN_JS" ]; then
-            echo "Error: Failed to fetch main bundle name from landing page."
-            exit 1
-          fi
-
-          # Fetch latest Hub version from JS bundle
-          LATEST_HUB=$(curl -s --compressed "https://antigravity.google/$LATEST_MAIN_JS" | grep -oP 'antigravity-hub/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
+          # Fetch latest Hub version from download page
+          LATEST_HUB=$(curl -s --compressed "https://antigravity.google/download" | grep -oP 'antigravity-hub/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
           if [ -z "$LATEST_HUB" ]; then
             echo "Error: Failed to fetch latest Hub version."
             exit 1
           fi
           echo "Latest Hub found: $LATEST_HUB"
 
-          # Fetch latest IDE version from JS bundle
-          LATEST_IDE=$(curl -s --compressed "https://antigravity.google/$LATEST_MAIN_JS" | grep -oP 'https://edgedl\.me\.gvt1\.com/edgedl/release2/j0qc3/antigravity/stable/[0-9]+\.[0-9]+\.[0-9]+-[0-9]+/linux-x64/Antigravity%20IDE\.tar\.gz' | head -n 1 | cut -d/ -f9)
+          # Fetch latest IDE version from download page
+          LATEST_IDE=$(curl -s --compressed "https://antigravity.google/download" | grep -oP 'edgedl/release2/j0qc3/antigravity/stable/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
           if [ -z "$LATEST_IDE" ]; then
             echo "Error: Failed to fetch latest IDE version."
             exit 1
