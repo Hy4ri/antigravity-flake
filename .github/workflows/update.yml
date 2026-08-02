@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
+    outputs:
+      fail_reason: ${{ steps.check.outputs.fail_reason }}
     steps:
       - uses: actions/checkout@v6
 
@@ -20,8 +23,19 @@ jobs:
 
       - name: Check for updates
         id: check
+        continue-on-error: true
         run: |
-          set -euo pipefail
+          ERR_LOG="$(mktemp)"
+          die() {
+            echo "fail_reason=$1" | tr -d '\n\r' >> "$GITHUB_OUTPUT"
+            echo "$1" >&2
+            exit 1
+          }
+          # Harden the fetches: fail fast on connect, retry transient errors,
+          # and capture the last error into ERR_LOG for the failure report.
+          fetch_url() {
+            curl -fsSL --compressed --connect-timeout 10 --max-time 30 --retry 3 --retry-delay 3 --retry-all-errors "$1" 2>>"$ERR_LOG" || true
+          }
 
           echo "=== Checking current versions ==="
           CURRENT_CLI=$(jq -r '.cli.version' version.json)
@@ -35,39 +49,40 @@ jobs:
           echo "Current SDK: $CURRENT_SDK"
 
           echo "=== Fetching latest versions ==="
-          
+
           # Fetch latest CLI version from auto-updater service
-          LATEST_CLI_MANIFEST=$(curl -fsSL "https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/linux_amd64.json")
+          LATEST_CLI_MANIFEST=$(fetch_url "https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/linux_amd64.json")
+          if [ -z "$LATEST_CLI_MANIFEST" ]; then
+            die "Failed to fetch latest CLI manifest. Last error: $(tail -n 1 "$ERR_LOG" 2>/dev/null || echo 'unknown')"
+          fi
           LATEST_CLI=$(echo "$LATEST_CLI_MANIFEST" | jq -r '.url' | grep -oP 'antigravity-cli/\K[^/]+')
           if [ -z "$LATEST_CLI" ]; then
-            echo "Error: Failed to fetch latest CLI version."
-            exit 1
+            die "Failed to parse latest CLI version from manifest."
           fi
           echo "Latest CLI found: $LATEST_CLI"
 
           # Fetch latest Hub version from download page
-          LATEST_HUB=$(curl -s --compressed "https://antigravity.google/download" | grep -oP 'antigravity-hub/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
+          LATEST_HUB=$(fetch_url "https://antigravity.google/download" | grep -oP 'antigravity-hub/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
           if [ -z "$LATEST_HUB" ]; then
-            echo "Error: Failed to fetch latest Hub version."
-            exit 1
+            die "Failed to fetch latest Hub version from download page. Last error: $(tail -n 1 "$ERR_LOG" 2>/dev/null || echo 'unknown')"
           fi
           echo "Latest Hub found: $LATEST_HUB"
 
           # Fetch latest IDE version from download page
-          LATEST_IDE=$(curl -s --compressed "https://antigravity.google/download" | grep -oP 'edgedl/release2/j0qc3/antigravity/stable/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
+          LATEST_IDE=$(fetch_url "https://antigravity.google/download" | grep -oP 'edgedl/release2/j0qc3/antigravity/stable/\K[0-9]+\.[0-9]+\.[0-9]+-[0-9]+' | sort -V | tail -n 1)
           if [ -z "$LATEST_IDE" ]; then
-            echo "Error: Failed to fetch latest IDE version."
-            exit 1
+            die "Failed to fetch latest IDE version from download page. Last error: $(tail -n 1 "$ERR_LOG" 2>/dev/null || echo 'unknown')"
           fi
           echo "Latest IDE found: $LATEST_IDE"
 
           # Fetch latest SDK version from PyPI API
-          LATEST_SDK=$(curl -s "https://pypi.org/pypi/google-antigravity/json" | jq -r '.info.version')
+          LATEST_SDK=$(fetch_url "https://pypi.org/pypi/google-antigravity/json" | jq -r '.info.version')
           if [ -z "$LATEST_SDK" ] || [ "$LATEST_SDK" = "null" ]; then
-            echo "Error: Failed to fetch latest SDK version from PyPI."
-            exit 1
+            die "Failed to fetch latest SDK version from PyPI. Last error: $(tail -n 1 "$ERR_LOG" 2>/dev/null || echo 'unknown')"
           fi
           echo "Latest SDK found: $LATEST_SDK"
+
+          echo "fail_reason=" >> "$GITHUB_OUTPUT"
 
           UPDATE_NEEDED="false"
           UPDATE_CLI=""
@@ -156,3 +171,49 @@ jobs:
           echo "Commit message: $MSG"
           git commit -m "$MSG" || echo "Nothing to commit"
           git push
+
+      - name: Close resolved failure issues
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LABEL="auto-failure"
+          gh label create "$LABEL" --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+          OPEN=$(gh issue list --repo "$GITHUB_REPOSITORY" --label "$LABEL" --state open --json number --jq '.[].number')
+          for n in $OPEN; do
+            echo "Closing auto-failure issue #$n (workflow succeeded again)"
+            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "The Update Antigravity workflow succeeded again — closing automatically."
+          done
+
+      # continue-on-error above would let the job pass; fail the run when the check failed.
+      - name: Fail the run
+        if: steps.check.outcome == 'failure'
+        run: exit 1
+
+  report-failure:
+    runs-on: ubuntu-latest
+    needs: update-antigravity
+    if: failure()
+    permissions:
+      issues: write
+    steps:
+      - name: Open failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          LABEL="auto-failure"
+          gh label create "$LABEL" --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+
+          REASON="${{ needs.update-antigravity.outputs.fail_reason }}"
+          [ -n "$REASON" ] || REASON="See the failed run logs for details."
+
+          TITLE="[auto] Update Antigravity workflow failed"
+          BODY=$(printf 'The **Update Antigravity** workflow failed on %s.\n\n- Run: %s/%s/actions/runs/%s\n- Job: update-antigravity\n\n**Failure reason:** %s\n\n_This issue was created automatically. It will be closed automatically when the workflow succeeds again._\n' "$(date -u +'%Y-%m-%d %H:%M UTC')" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" "$REASON")
+
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --label "$LABEL" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            echo "Failure issue #$EXISTING already open — adding comment instead."
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "Still failing on run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID — $REASON"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --label "$LABEL" --body "$BODY"
+          fi
