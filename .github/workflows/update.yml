@@ -173,7 +173,7 @@ jobs:
           git push
 
       - name: Close resolved failure issues
-        if: success()
+        if: steps.check.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
