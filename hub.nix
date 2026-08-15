@@ -18,6 +18,7 @@
   gdk-pixbuf,
   glib,
   gtk3,
+  wrapGAppsHook3,
   libdrm,
   libGL,
   libgbm,
@@ -142,6 +143,7 @@ stdenv.mkDerivation {
   ] else [
     autoPatchelfHook
     makeWrapper
+    wrapGAppsHook3
   ];
 
   buildInputs = lib.optionals (!isDarwin) runtimeLibs;
