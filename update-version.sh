@@ -144,8 +144,8 @@ if [[ -n "$SDK_VER" ]]; then
     exit 1
   fi
 
-  sdk_x86_64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("manylinux_2_17_x86_64.whl")) | .url')
-  sdk_aarch64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("manylinux_2_17_aarch64.whl")) | .url')
+  sdk_x86_64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | test("manylinux_2_17_x86_64(\\..+)?\\.whl$")) | .url')
+  sdk_aarch64_linux_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | test("manylinux_2_17_aarch64(\\..+)?\\.whl$")) | .url')
   sdk_aarch64_darwin_url=$(echo "$sdk_json" | jq -r --arg v "$SDK_VER" '.releases[$v][] | select(.filename | endswith("macosx_11_0_arm64.whl")) | .url')
 
   if [[ -z "$sdk_x86_64_linux_url" || "$sdk_x86_64_linux_url" == "null" ]]; then
