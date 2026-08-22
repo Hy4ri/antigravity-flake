@@ -1,11 +1,11 @@
 {
   "cli": {
-    "version": "1.1.17-5084709148033024",
+    "version": "1.1.18-6435547766456320",
     "hashes": {
-      "x86_64-linux": "1ps9z04nr17lv16rw9snvbs6r46z2vysq00968w2kmjc95k3ji0m",
-      "aarch64-linux": "1906bc5my6wig327i0ckzk4y241d7fainfmbvij414fmlr5jz0i8",
-      "x86_64-darwin": "0zjlsbyqmcj9i7x1l6d6n9nw937a39zgskmip4gzxblwwqisnj5g",
-      "aarch64-darwin": "1pawnd38ril867y00dwzhwnp7bjzb3vk5004qzvdswplmv9qkzk0"
+      "x86_64-linux": "06582gsk50xz32xxrizcdc0kawaw07nrjbxs4hnkf0msyp0y79qs",
+      "aarch64-linux": "0sby462cn9ysimwzihmgf444nwj14qighw0xc9l0xg9v5kmd0f8n",
+      "x86_64-darwin": "065ri02fhbfg19cryn1cy1j7vqblkc8aggkrdwwzw5cbkx9drb3k",
+      "aarch64-darwin": "1y5l4f412cxmz74ba1z77pkaxfhiqkkxwj6m9zvyayhjxpmz7syv"
     }
   },
   "hub": {
@@ -27,16 +27,16 @@
     }
   },
   "sdk": {
-    "version": "0.1.13",
+    "version": "0.1.14",
     "urls": {
-      "x86_64-linux": "https://files.pythonhosted.org/packages/35/ac/698e469568e8fced1534b8a0f1576cb76c986ce6bad3098dce26d99f226d/google_antigravity-0.1.13-py3-none-manylinux_2_17_x86_64.whl",
-      "aarch64-linux": "https://files.pythonhosted.org/packages/46/3d/6ac1c533ac3b3447fe24e751845f7506e78701942c6726226efeda4e7de4/google_antigravity-0.1.13-py3-none-manylinux_2_17_aarch64.whl",
-      "aarch64-darwin": "https://files.pythonhosted.org/packages/31/f7/562a0b10133c4ba60d6353517ab9e047cdcbcd602b8f8637c688d727bf28/google_antigravity-0.1.13-py3-none-macosx_11_0_arm64.whl"
+      "x86_64-linux": "https://files.pythonhosted.org/packages/f5/0b/c80d37ce6482b8933eab306ebedeb7086588201c69ac4b434cd0817f0c7d/google_antigravity-0.1.14-py3-none-manylinux_2_17_x86_64.musllinux_1_1_x86_64.whl",
+      "aarch64-linux": "https://files.pythonhosted.org/packages/b1/a4/a5b35a03b8ab0cb9ecb3f0b9ee67c334f4a79888b5947e7c44d271d6bb51/google_antigravity-0.1.14-py3-none-manylinux_2_17_aarch64.musllinux_1_1_aarch64.whl",
+      "aarch64-darwin": "https://files.pythonhosted.org/packages/56/9c/fcd7981d3384990e4dc7435a0eb19887ebf20ddfafcd84a1bd890790bbd8/google_antigravity-0.1.14-py3-none-macosx_11_0_arm64.whl"
     },
     "hashes": {
-      "x86_64-linux": "sha256-85hmSzYigAN/jtbfXNYbmW89Ar4RUf9mXG0JyHzGqZI=",
-      "aarch64-linux": "sha256-pLYaBqZ7lAx7p9QaPPzAPYoabvf4h59bSnFYTFaCdXs=",
-      "aarch64-darwin": "sha256-keTZu1UwnAi0pH97c8OXq/gWSKu7MJY9MXyQaTmkfEA="
+      "x86_64-linux": "sha256-H8oJiYJHACtfFLuHyb651kBLGxhAvlWQImLXnkqMOl4=",
+      "aarch64-linux": "sha256-3I+O/7Twd8omjK4zqfWgJaLndXYe5+2pg/aCwVF1JrI=",
+      "aarch64-darwin": "sha256-gey6BoZasEmDmsZLpuw2UjIw7/YKsaRDXK0VuMrnHm8="
     }
   }
 }
