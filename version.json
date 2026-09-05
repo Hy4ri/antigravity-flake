@@ -1,11 +1,11 @@
 {
   "cli": {
-    "version": "1.1.26-5550154686791680",
+    "version": "1.1.27-5211191891591168",
     "hashes": {
-      "x86_64-linux": "0m7fwjvww1y5d6i6ly07x653vl6bxvnbr53h1dk16dbb4qk0fz64",
-      "aarch64-linux": "0vdx7y6swf9jywvqb10y5ahfiw2ls0991jxrzbzil013mvqx55gm",
-      "x86_64-darwin": "1cra5mzw6a6119amai7g57xgi9z89p9iz7y995yv8mbz0y27i31k",
-      "aarch64-darwin": "1jqa3x369bs9w7692j399106pkyhg9sljr0i63q5gi1ni9j0s5kn"
+      "x86_64-linux": "1gi0kbykgs4jcrp79zfv9bkbdz2nnrgz507mc3v2sg57p3vd8x7q",
+      "aarch64-linux": "153axdyc2ihjj63c9gik9ni275ic6rpaxr6b0b6hcx06lvjrzz4p",
+      "x86_64-darwin": "14h1y4dgv62nnc856448qwncpidkyp1zkhlgqrwd9ravyqmi0pzy",
+      "aarch64-darwin": "1x35yniwgk6m6nswswnkwq46sa3r001hdwqxq0hlrar0zp4fa0g9"
     }
   },
   "hub": {
