@@ -13,7 +13,7 @@ jobs:
       contents: write
       issues: write
     outputs:
-      fail_reason: ${{ steps.check.outputs.fail_reason }}
+      fail_reason: ${{ steps.build_verify.outputs.fail_reason || steps.check.outputs.fail_reason }}
     steps:
       - uses: actions/checkout@v6
 
@@ -135,14 +135,22 @@ jobs:
         if: steps.check.outputs.update_needed == 'true'
         run: nix flake update
 
-      - name: Verify Flake
+      - name: Verify Builds
+        id: build_verify
         if: steps.check.outputs.update_needed == 'true'
+        continue-on-error: true
         run: |
+          BUILD_LOG="$(mktemp)"
+          echo "Building antigravity packages to verify update..."
           nix flake check --no-build
-          nix build .#antigravity-cli .#antigravity .#antigravity-ide .#antigravity-sdk --no-link
+          if ! nix build .#antigravity-cli .#antigravity .#antigravity-ide .#antigravity-sdk --no-link 2>&1 | tee "$BUILD_LOG"; then
+            ERR_MSG="Package build failed after version update. Log snippet: $(tail -n 20 "$BUILD_LOG")"
+            echo "fail_reason=$ERR_MSG" | tr '\n\r' '  ' >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
 
       - name: Commit and Push
-        if: steps.check.outputs.update_needed == 'true'
+        if: steps.check.outputs.update_needed == 'true' && steps.build_verify.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -173,7 +181,7 @@ jobs:
           git push
 
       - name: Close resolved failure issues
-        if: steps.check.outcome == 'success'
+        if: steps.check.outcome == 'success' && (steps.build_verify.outcome == 'success' || steps.check.outputs.update_needed != 'true')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -185,9 +193,9 @@ jobs:
             gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "The Update Antigravity workflow succeeded again — closing automatically."
           done
 
-      # continue-on-error above would let the job pass; fail the run when the check failed.
+      # continue-on-error above would let the job pass; fail the run when check or build failed.
       - name: Fail the run
-        if: steps.check.outcome == 'failure'
+        if: steps.check.outcome == 'failure' || steps.build_verify.outcome == 'failure'
         run: exit 1
 
   report-failure:
