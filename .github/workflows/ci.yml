@@ -2,15 +2,8 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '**.nix'
-      - 'version.json'
-      - 'flake.lock'
   pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,7 +15,7 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Build antigravity packages
+      - name: Build all antigravity packages
         run: |
           nix flake check --no-build
-          nix build .#antigravity-cli .#antigravity .#antigravity-ide .#antigravity-sdk --no-link
+          nix build .#antigravity-cli .#antigravity .#antigravity-ide .#antigravity-sdk .#antigravity-fhs --no-link
