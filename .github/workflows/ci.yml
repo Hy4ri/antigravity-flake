@@ -1,4 +1,4 @@
-name: CI
+name: Build Check
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    name: Build and verify flake
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
