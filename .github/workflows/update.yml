@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
       issues: write
     outputs:
       fail_reason: ${{ steps.build_verify.outputs.fail_reason || steps.check.outputs.fail_reason }}
@@ -151,6 +152,8 @@ jobs:
 
       - name: Commit and Push
         if: steps.check.outputs.update_needed == 'true' && steps.build_verify.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -179,6 +182,8 @@ jobs:
           echo "Commit message: $MSG"
           git commit -m "$MSG" || echo "Nothing to commit"
           git push
+          # GITHUB_TOKEN pushes do not trigger push workflows; dispatch CI explicitly.
+          gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"
 
       - name: Close resolved failure issues
         if: steps.check.outcome == 'success' && (steps.build_verify.outcome == 'success' || steps.check.outputs.update_needed != 'true')
