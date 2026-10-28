@@ -1,42 +1,42 @@
 {
   "cli": {
-    "version": "1.4.8-5447777392656384",
+    "version": "1.4.9-4962164969177088",
     "hashes": {
-      "x86_64-linux": "0lkcz3m5mf13hq5nplz7mn5f2skhj2hc739is4nzkw44ql7my5lb",
-      "aarch64-linux": "100c8pcnvyv232s1dcjnndvpg03s1x1zf97xljwxkkzxpmb4rqxv",
-      "x86_64-darwin": "1hr9gc56ph6j1wghhjb7lzxiz5as2nvv3sxd1j61m8mrmycir1ff",
-      "aarch64-darwin": "0cbnbr8sn9gwp3rz3mb33i5rrf9r1vmrl4wn8knj7g17b6rzglgc"
+      "x86_64-linux": "09c5ms0dn1f51cnahlagjq73h88rl1ay3vfyr7zzkjxrc6jf711x",
+      "aarch64-linux": "14rl0wx9i6d0gzx8mlmkg496mlrcakpwy0dj4dv0z2x4b86ijx8f",
+      "x86_64-darwin": "0xzz5zzw4vggq5w9xh3nwmmx9kyh4l5lya0si4q22235shv480wk",
+      "aarch64-darwin": "1w1ly6qpc0n07359743in9xy3zs9ipabw4k9ybkjlqsyjwa4w834"
     }
   },
   "hub": {
-    "version": "2.27.0-4933976025071616",
+    "version": "2.28.0-6410674700681216",
     "hashes": {
-      "x86_64-linux": "1k5ryrl3wb7lmybp9jkqf02qaazz64pwh5mn52sc37p0h1kf9ixy",
-      "aarch64-linux": "0xlarswlm6424v85a3lzncf3ap5iz3aqkpk24f8gzhxzsdr7xd2a",
-      "x86_64-darwin": "05y7ycn7cg3ym609xj1ihdrm53wpi57pkpl2xh5bzqr5a76mjk3w",
-      "aarch64-darwin": "0iwlq5f4x1jamq6vg80m9p2d76qynyk8r178k8w3w8cgxlq0i39b"
+      "x86_64-linux": "08w8s51jklazznbfms7jdgv1393chqh24mi53bvzd13c5firhnr2",
+      "aarch64-linux": "1cn301m2q7yda9zz72d9il2jbzq0gs9i8hvdbyx2rvrallzmdsj9",
+      "x86_64-darwin": "1n0kd2p0pykx2636pm8dkcvmrpgn25wy428jllggag4y1m5258kk",
+      "aarch64-darwin": "0jz2rfysq77x7nafqj015zc4104sxnlyh9db4rx0byw6ab5bry6r"
     }
   },
   "ide": {
-    "version": "2.5.5-4923483625488384",
+    "version": "2.6.0-5526304964083712",
     "hashes": {
-      "x86_64-linux": "0cgq2xln7444jwbbnphs6qyrbhhj82aghjdgc6xsxcyjjyr36lhc",
-      "aarch64-linux": "17m473y9z3k9l8sh55f31hgwdpplmak0lzwd78i3mhw0i486ghc8",
-      "x86_64-darwin": "081127fmjdb82vm31vkfyvbz20yb7wirmy8rpm9ib7alg8alwhx6",
-      "aarch64-darwin": "0gm30qiy8vzi3yghcf3fd35npv2000rh0qcspfrzqdx561npvmna"
+      "x86_64-linux": "0mj3z6k6xdbl34qx81yjlx0x5388lgkqwbvm36vb40wicz3sfq5h",
+      "aarch64-linux": "1pjjl3mf5iwbzyz7x8amwmgv9vs0sqkdv8qi2wm5h2gr5fswqls9",
+      "x86_64-darwin": "0fqfd60gmb8x0v0rm8df2w5brx1q76aair95grmwcsk67q3s44sf",
+      "aarch64-darwin": "174wni391x8y2kqgcvf01affbbpb1b4br8hf93czk27cz8gyfwbr"
     }
   },
   "sdk": {
-    "version": "0.1.22",
+    "version": "0.1.23",
     "urls": {
-      "x86_64-linux": "https://files.pythonhosted.org/packages/93/65/23f0fd95def63d18ea292f212f158fb4ca31aeedd97a601a9e243babd20f/google_antigravity-0.1.22-py3-none-manylinux_2_17_x86_64.musllinux_1_1_x86_64.whl",
-      "aarch64-linux": "https://files.pythonhosted.org/packages/d6/67/a2ccde504e1dae0dbb05d12e4e42bb96f68e39ab65c1e10e1af379ff52a6/google_antigravity-0.1.22-py3-none-manylinux_2_17_aarch64.musllinux_1_1_aarch64.whl",
-      "aarch64-darwin": "https://files.pythonhosted.org/packages/16/2d/fd1cb2cf1f610726914087a89960a95a33ed47e9804a00e598debc0280aa/google_antigravity-0.1.22-py3-none-macosx_11_0_arm64.whl"
+      "x86_64-linux": "https://files.pythonhosted.org/packages/9a/53/ea087398e44a3deb216a7a87bb88832b182a4a66489ec6cb43db22b5abda/google_antigravity-0.1.23-py3-none-manylinux_2_17_x86_64.musllinux_1_1_x86_64.whl",
+      "aarch64-linux": "https://files.pythonhosted.org/packages/55/74/fe20c9b0301c9fd3fdaf4f4f92ed43fd3f1ab59c7c6b64ebbc793ec04578/google_antigravity-0.1.23-py3-none-manylinux_2_17_aarch64.musllinux_1_1_aarch64.whl",
+      "aarch64-darwin": "https://files.pythonhosted.org/packages/78/1e/71a0db889bdc339ae2ddbf7875366959660dc108c803c6b17242fcca41bc/google_antigravity-0.1.23-py3-none-macosx_11_0_arm64.whl"
     },
     "hashes": {
-      "x86_64-linux": "sha256-9XyCtkNgw6ybxldEuKSu4tw1WsuXGUutgRo6UHFXSGE=",
-      "aarch64-linux": "sha256-ybbAKLY7Ki12780KZSn8KaOd6bAvwLgKWwHKb08iWnY=",
-      "aarch64-darwin": "sha256-Hbj17y6zqCHHeA2KXGNMTZuQ1AGgLebWQML6aaJUW2I="
+      "x86_64-linux": "sha256-ax36FAkM6M8QOVB07sqyvyDLSc7tOiYD05gDlRyYhOI=",
+      "aarch64-linux": "sha256-F7LSZXXvFouzzNdN3znr/kxSjqQm5L7e6GIep6Qc9Sc=",
+      "aarch64-darwin": "sha256-ktxxpSr94P+EJFNOcozG4WhIl3O2FFe4jc0cY0r0/2w="
     }
   }
 }
