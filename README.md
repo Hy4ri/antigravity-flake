@@ -5,90 +5,144 @@
 [![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
 [![SDK Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.sdk.version&label=SDK&prefix=v&color=blue)](https://github.com/Hy4ri/antigravity-flake)
 
-A clean, multi-platform Nix Flake for packaging the complete Google Antigravity AI engineering suite: the CLI, Desktop Hub, Desktop IDE, and Python SDK.
+Run and install the Google Antigravity tools on NixOS, Home Manager, nix-darwin, or any system with Nix: the CLI, the desktop Hub, the desktop IDE, and the Python SDK.
 
-## Exposed Packages
+The flake is updated automatically every day.
 
-This flake packages and exposes five primary targets supporting both Linux (`x86_64-linux`, `aarch64-linux`) and macOS (`x86_64-darwin`, `aarch64-darwin`):
+## Packages
 
-1. **`antigravity-cli`** (default) ![CLI Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.cli.version&label=CLI&prefix=v&color=blue) - The Go-based Antigravity command-line utility (provides command `agy`).
-2. **`antigravity`** ![Hub Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.hub.version&label=Hub&prefix=v&color=blue) - The Antigravity Desktop Hub (provides command `antigravity`).
-3. **`antigravity-ide`** ![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue) - The Antigravity Desktop IDE (provides command `antigravity-ide`).
-4. **`antigravity-fhs`** ![IDE Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.ide.version&label=IDE&prefix=v&color=blue) - Wrapped IDE launched in a FHS compatible environment (provides conflicting command `antigravity-ide`, making it mutually exclusive/uninstallable together with the standard IDE package).
-5. **`antigravity-sdk`** ![SDK Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FHy4ri%2Fantigravity-flake%2Fmain%2Fversion.json&query=%24.sdk.version&label=SDK&prefix=v&color=blue) - The Python SDK containing precompiled, auto-patched localharness binaries for agent interaction.
+| Package | What it is | Command |
+|---|---|---|
+| `antigravity-cli` (default) | Command-line tool | `agy` |
+| `antigravity` | Desktop Hub | `antigravity` |
+| `antigravity-ide` | Desktop IDE | `antigravity-ide` |
+| `antigravity-fhs` | Desktop IDE in an FHS environment, so extensions with their own binaries work without Nix patches. Linux only. | `antigravity-ide` |
+| `antigravity-sdk` | Python SDK, with its bundled binaries patched for Nix | Python library |
 
----
+> `antigravity-ide` and `antigravity-fhs` give the same command. **Install only one of them.** If IDE extensions do not work, use `antigravity-fhs`.
 
-## Quick Start (No Installation)
+Platforms: Linux (`x86_64`, `aarch64`) and macOS (Intel, Apple Silicon).
 
-You can run any part of the Antigravity suite immediately without modifying your system configuration:
+## Try it without installing
 
-### Run the CLI
+You need Nix with [flakes enabled](https://wiki.nixos.org/wiki/Flakes).
+
 ```bash
-nix run github:Hy4ri/antigravity-flake
-# Or explicitly:
-nix run github:Hy4ri/antigravity-flake#antigravity-cli
+nix run github:Hy4ri/antigravity-flake                   # CLI
+nix run github:Hy4ri/antigravity-flake#antigravity       # desktop Hub
+nix run github:Hy4ri/antigravity-flake#antigravity-ide   # desktop IDE
+nix run github:Hy4ri/antigravity-flake#antigravity-fhs   # desktop IDE, FHS (Linux only)
 ```
 
-### Run the Desktop Hub
-```bash
-nix run github:Hy4ri/antigravity-flake#antigravity
-```
+## Install
 
-### Run the Desktop IDE
-```bash
-nix run github:Hy4ri/antigravity-flake#antigravity-ide
-# Or run with the FHS wrapper (Linux only):
-nix run github:Hy4ri/antigravity-flake#antigravity-fhs
-```
+There are **two ways** to install. **Pick one.** They give the same result.
 
----
+| Option | Use it when |
+|---|---|
+| **A. Overlay** | You want to write `pkgs.antigravity-cli`, like any other nixpkgs package. |
+| **B. Direct package** | You do not want to use overlays. |
 
-## Installation & Integration
+### Step 1: Add the flake input (needed for both options)
 
-### 1. Declaring packages in NixOS / Home Manager
-Add `antigravity-flake` to your flake inputs:
+In your system `flake.nix`:
 
 ```nix
-inputs = {
-  nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  antigravity.url = "github:Hy4ri/antigravity-flake";
-};
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    antigravity.url = "github:Hy4ri/antigravity-flake";
+  };
+
+  outputs = { nixpkgs, ... }@inputs: {
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; }; # lets your modules use `inputs`
+      modules = [ ./configuration.nix ];
+    };
+  };
+}
 ```
 
-Then add the packages to your system or home packages:
+> Already have a flake? Add only the `antigravity.url` line, and make sure `inputs` reaches your modules (`specialArgs` for NixOS and nix-darwin, `extraSpecialArgs` for Home Manager).
+
+### Step 2, Option A: Overlay
+
+In `configuration.nix`:
 
 ```nix
-environment.systemPackages = [
-  inputs.antigravity.packages.${pkgs.system}.antigravity-cli
-  inputs.antigravity.packages.${pkgs.system}.antigravity
-  inputs.antigravity.packages.${pkgs.system}.antigravity-ide
-];
+{ inputs, pkgs, ... }:
+{
+  nixpkgs.overlays = [ inputs.antigravity.overlays.default ];
+  nixpkgs.config.allowUnfree = true; # required: the apps are marked unfree
+
+  environment.systemPackages = [
+    pkgs.antigravity-cli
+    pkgs.antigravity
+    pkgs.antigravity-ide # or pkgs.antigravity-fhs, not both
+  ];
+}
 ```
 
-### 2. Using the Python SDK in a DevShell
-If you are developing Python agents, you can easily load the precompiled and auto-patched Python SDK into a nix development shell:
+For Home Manager, keep the two `nixpkgs` lines and use `home.packages` instead.
+
+Want only some packages in `pkgs`? Use the single overlays instead of `overlays.default`: `antigravity-cli`, `antigravity`, `antigravity-ide`, `antigravity-fhs`, `antigravity-sdk`.
+
+### Step 2, Option B: Direct package
+
+In `configuration.nix`:
 
 ```nix
-devShells.default = pkgs.mkShell {
+{ inputs, pkgs, ... }:
+let
+  antigravity = inputs.antigravity.packages.${pkgs.stdenv.hostPlatform.system};
+in
+{
+  environment.systemPackages = [
+    antigravity.antigravity-cli
+    antigravity.antigravity
+    antigravity.antigravity-ide # or antigravity.antigravity-fhs, not both
+  ];
+}
+```
+
+You do not need `allowUnfree` for this option. For Home Manager, put the same packages in `home.packages`.
+
+### Step 3: Rebuild
+
+```bash
+sudo nixos-rebuild switch --flake .#myhost
+```
+
+## Use the Python SDK
+
+The SDK is a Python library, so you add it to a Python environment, not to `systemPackages`. Example dev shell in your project's `flake.nix`:
+
+```nix
+devShells.x86_64-linux.default = pkgs.mkShell {
   packages = [
     (pkgs.python3.withPackages (ps: [
-      inputs.antigravity.packages.${pkgs.system}.antigravity-sdk
+      inputs.antigravity.packages.x86_64-linux.antigravity-sdk
     ]))
   ];
 };
 ```
 
-### 3. Using Overlays
-To globally inject these packages into your nixpkgs instance, apply the overlay:
+With the overlay, `antigravity-sdk` is also in the Python package set, so `pkgs.python3.withPackages (ps: [ ps.antigravity-sdk ])` works too.
 
-```nix
-nixpkgs.overlays = [
-  inputs.antigravity.overlays.default
-];
+## Updates
+
+A GitHub Action checks for new releases every day, tests the build, and commits the new versions. To get them, update your lock file:
+
+```bash
+nix flake update antigravity
 ```
 
----
+Maintainers can update by hand: `nix develop`, then `./update-version.sh`.
 
 ## License
-Proprietary binaries downloaded and packaged under the Google Antigravity License Terms.
+
+The Antigravity apps are proprietary software by Google, under the Google Antigravity license terms; Nix marks them as unfree. The SDK is Apache-2.0. This flake only downloads and packages the official releases.
+
+## Support
+
+If this flake helps you, you can support my work on [GitHub Sponsors](https://github.com/sponsors/hy4ri) or [Ko-fi](https://ko-fi.com/m_5_7). A star on the repo also helps.
