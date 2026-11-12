@@ -1,20 +1,20 @@
 {
   "cli": {
-    "version": "1.5.6-6212266538958848",
+    "version": "1.5.7-6190022064472064",
     "hashes": {
-      "x86_64-linux": "1nfzjb3xn34iida2dk2mn4z2dvznhb0ldhkpyxga9rgwlqnr13s0",
-      "aarch64-linux": "082mjn0yp4hf8kzkfssq68bchs8xpc5iax7z60rydxi7dscwzgs2",
-      "x86_64-darwin": "18ir408zljfqqzzawpwiyvg35x74ljvdpcpy78n2byhk99405jm5",
-      "aarch64-darwin": "0ypfmvbyd66w4l2d9ryjd66fpfka5smqd584kxid709xnfyavf47"
+      "x86_64-linux": "1fzxg27yvf39q0h9lygl52b0brxncrpmscmjf78s6acy5a6hl5fn",
+      "aarch64-linux": "1nhwcjq0vnf004a5f41azw75w9hiy1y6qm0pcjfdnw01gy53fnlc",
+      "x86_64-darwin": "1qkbq2rq2y7bxwg15wpygknyb5i36xlnvhak4vyj9nyih06i3859",
+      "aarch64-darwin": "19fyqd47zdkpfxy5xlzw8aw0p9f2xsahbpdqcwppckrmdyyri7ja"
     }
   },
   "hub": {
-    "version": "2.31.0-6379060755038208",
+    "version": "2.31.2-6470801290035200",
     "hashes": {
-      "x86_64-linux": "171n6cn3mk56qa4lzkvahqfyq4qd4j9s8ykfgwxn9gzhzyhxxk1h",
-      "aarch64-linux": "1b1dif8rbzp3y3ncq5n29d0gay7gq5x7i504z3hqw3mcz8bxsg0b",
-      "x86_64-darwin": "0mhc0lgpyj2wv5baxm44via4bw0qq4zldxwnwgm48yihs6gnklpr",
-      "aarch64-darwin": "0bvbq322icc98mr1r8sjlgy7nvizjjm4fh2d5r31rzw2cpwnb2c6"
+      "x86_64-linux": "04rlws7g3v8diflsid1gn8scy2035whrmviyrafvmbm246mkrgi0",
+      "aarch64-linux": "0s0hqay4a6gynlh86pkvd82qsfhqk6l76kj0sz9rwsryr0y4lail",
+      "x86_64-darwin": "0y66di3il4cfjbgkr59zpysgzd7v2bkgb4sjz71vnjy3i1nmj17i",
+      "aarch64-darwin": "1rn37dh510l64sdpnvrs7nmcbjdj2n1l2lzmpdxvgbr8dd69245z"
     }
   },
   "ide": {
