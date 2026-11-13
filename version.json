@@ -1,29 +1,29 @@
 {
   "cli": {
-    "version": "1.5.7-6190022064472064",
+    "version": "1.5.8-4602374149505024",
     "hashes": {
-      "x86_64-linux": "1fzxg27yvf39q0h9lygl52b0brxncrpmscmjf78s6acy5a6hl5fn",
-      "aarch64-linux": "1nhwcjq0vnf004a5f41azw75w9hiy1y6qm0pcjfdnw01gy53fnlc",
-      "x86_64-darwin": "1qkbq2rq2y7bxwg15wpygknyb5i36xlnvhak4vyj9nyih06i3859",
-      "aarch64-darwin": "19fyqd47zdkpfxy5xlzw8aw0p9f2xsahbpdqcwppckrmdyyri7ja"
+      "x86_64-linux": "165b0vz6rdipjbwnqy5xr8sd71cvqljazgw4xq5w06ynzg64lpch",
+      "aarch64-linux": "0qnmddkw60d8fwpjwpail4n3nqnjs6hpj3ivpi7j9ak1fqshg90c",
+      "x86_64-darwin": "1h73dd8p69hph5yawyn8hgkvfz6xgbqxwrhx3frr068xwv5pikz4",
+      "aarch64-darwin": "17w2qc5pw4vz2lx7fmzv81whcgfjfzip6ph8f2kscif0rnmqk6pw"
     }
   },
   "hub": {
-    "version": "2.31.2-6470801290035200",
+    "version": "2.32.0-6141816156848128",
     "hashes": {
-      "x86_64-linux": "04rlws7g3v8diflsid1gn8scy2035whrmviyrafvmbm246mkrgi0",
-      "aarch64-linux": "0s0hqay4a6gynlh86pkvd82qsfhqk6l76kj0sz9rwsryr0y4lail",
-      "x86_64-darwin": "0y66di3il4cfjbgkr59zpysgzd7v2bkgb4sjz71vnjy3i1nmj17i",
-      "aarch64-darwin": "1rn37dh510l64sdpnvrs7nmcbjdj2n1l2lzmpdxvgbr8dd69245z"
+      "x86_64-linux": "0xa29x2nf3bh3xv6jp74w2hl6187x8r8zvky5vfsfk5xy9qi72nr",
+      "aarch64-linux": "1vs8zhk9jqzcxvykl33w516xq4r0lvq44ic5m0haqkkkx4rrhk01",
+      "x86_64-darwin": "10w4vmy6ssib2mlbnlvydbyaijhz33ihf5qp3yw22g2cmbmkzggd",
+      "aarch64-darwin": "1xwqxnkfzf6w6djah27rvdqj8wkf5axbgfvsszn0cr9hrw2g5h3y"
     }
   },
   "ide": {
-    "version": "2.6.0-5526304964083712",
+    "version": "2.7.0-4507555968450560",
     "hashes": {
-      "x86_64-linux": "0mj3z6k6xdbl34qx81yjlx0x5388lgkqwbvm36vb40wicz3sfq5h",
-      "aarch64-linux": "1pjjl3mf5iwbzyz7x8amwmgv9vs0sqkdv8qi2wm5h2gr5fswqls9",
-      "x86_64-darwin": "0fqfd60gmb8x0v0rm8df2w5brx1q76aair95grmwcsk67q3s44sf",
-      "aarch64-darwin": "174wni391x8y2kqgcvf01affbbpb1b4br8hf93czk27cz8gyfwbr"
+      "x86_64-linux": "0pbsdy9rb4slpiwa2rfzpa77c0rj3wxp8jr58s44krf345jshq4k",
+      "aarch64-linux": "1fsy78f5g9xwfbax6pdqnwb8nyk27wz31zyg58x3v3202n497hbh",
+      "x86_64-darwin": "0mmy7gq103agghiwgj6f0w47fblw395hfn4ckypw97gz3ga7hdpv",
+      "aarch64-darwin": "0r1c0dvykz7ngqr2vnpywid3hy6ryw20zy13x31szw37jrppgw2c"
     }
   },
   "sdk": {
